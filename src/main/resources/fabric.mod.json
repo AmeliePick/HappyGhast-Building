@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "happyghastbuilding",
+  "version": "${version}",
+  "name": "happyghastbuilding",
+  "description": "its a simple mod that lets you place blocks on a happy ghast",
+  "authors": [
+    "keremyurekli"
+  ],
+  "contact": {
+    "repo": "https://github.com/keremyurekli/happyghastbuilding"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/happyghastbuilding/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.keremyurekli.happyghastbuilding.client.HappyghastbuildingClient"
+    ],
+    "main": [
+      "com.keremyurekli.happyghastbuilding.Happyghastbuilding"
+    ]
+  },
+  "mixins": [
+    "happyghastbuilding.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "1.21.6-alpha.25.15.a"
+  }
+}
