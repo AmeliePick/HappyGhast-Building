@@ -3,6 +3,6 @@
 
 Its a simple mod that allows you to build things on a happy ghast even if there arent any blocks in the air. Just hold shift before clicking.
 
-It should work on multiplayer too.
+It should be working on multiplayer too.
 
 https://youtu.be/Mboi7vqOZgo
