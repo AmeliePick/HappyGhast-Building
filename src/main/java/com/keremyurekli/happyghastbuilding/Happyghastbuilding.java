@@ -114,7 +114,7 @@ public class Happyghastbuilding implements ModInitializer {
 //                                        player.sendMessage(Text.literal("Yes my boy"), false);
                                         world.setBlockState(blockPos,blockItem.getBlock().getDefaultState().withIfExists(p, player.getHorizontalFacing()));
                                     } else {
-                                        world.setBlockState(blockPos, blockItem.getBlock().getDefaultState(),1);
+                                        world.setBlockState(blockPos, blockItem.getBlock().getDefaultState());
 
                                     }
                                     copyComponentsToBlockEntity(world,blockPos,itemInHand);
