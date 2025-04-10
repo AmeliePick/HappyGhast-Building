@@ -5,4 +5,5 @@ Its a simple mod that allows you to build things on a happy ghast even if there 
 
 It should be working on multiplayer too.
 
-https://youtu.be/Mboi7vqOZgo
+https://github.com/user-attachments/assets/aca9dbf2-7564-4b65-b02f-b7bc238d42f2
+
