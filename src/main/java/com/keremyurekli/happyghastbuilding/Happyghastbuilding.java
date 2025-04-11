@@ -56,23 +56,31 @@ public class Happyghastbuilding implements ModInitializer {
     public void onInitialize() {
 //        Constant.LOGGER.info("Starting up pal...");
 
+//        ItemManager.registerItems();
+
+        new ItemManager();
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
             return entityHandleV1(player,world,hand,entity,hitResult);
         });
 
     }
 
+
+
     private static ActionResult entityHandleV1(PlayerEntity player, World world, Hand hand, Entity entity, EntityHitResult hitResult) {
         // This makes sure it runs only on the server
-        if (!world.isClient && player.isSneaking()) {
-            if (hitResult == null) {
-                return ActionResult.PASS;
-            }
-            ItemStack itemInHand = player.getStackInHand(hand);
-            if (itemInHand.getItem() instanceof  BlockItem blockItem) {
-                if (entity.getType() == EntityType.HAPPY_GHAST) {
+        if (hitResult == null) {
+            return ActionResult.PASS;
+        }
+        if (!world.isClient) {
+            if (entity.getType() == EntityType.HAPPY_GHAST && player.isSneaking()) {
+                ItemStack itemInHand = player.getStackInHand(hand);
+                if (itemInHand.getItem() instanceof  BlockItem blockItem) {
                     class_11187 ghast = (class_11187) entity;
                     PassiveEntity pe = (PassiveEntity) entity;
+                    if (pe.isBaby()) {
+                        return ActionResult.PASS;
+                    }
                     if (ghast.method_70702()) {//player is on top of the ghast
                         Vec3d hitPos = hitResult.getPos();
                         BlockPos blockPos = BlockPos.ofFloored(hitPos);

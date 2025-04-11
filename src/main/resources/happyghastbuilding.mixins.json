@@ -4,8 +4,10 @@
   "package": "com.keremyurekli.happyghastbuilding.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+
   ],
   "client": [
+    "HarnessFeatureRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

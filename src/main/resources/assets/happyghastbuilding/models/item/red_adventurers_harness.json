@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "happyghastbuilding:item/red_adventurers_harness"
+  }
+}
