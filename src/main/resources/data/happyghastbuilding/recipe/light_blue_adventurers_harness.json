@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "CBF",
+    "WWW"
+  ],
+  "key": {
+    "#": "minecraft:chest",
+    "C": "minecraft:crafting_table",
+    "B": "minecraft:light_blue_harness",
+    "F": "minecraft:furnace",
+    "W": "#minecraft:wool"
+  },
+  "result": {
+    "id": "happyghastbuilding:light_blue_adventurers_harness",
+    "count": 1
+  },
+  "group": "harness"
+}

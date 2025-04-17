@@ -1,71 +1,83 @@
 package com.keremyurekli.happyghastbuilding;
 
+import com.keremyurekli.happyghastbuilding.helpers.FileManager;
+import com.keremyurekli.happyghastbuilding.networking.FurnaceStatePayload;
+import com.keremyurekli.happyghastbuilding.networking.GhastAddedPayload;
+import com.keremyurekli.happyghastbuilding.networking.NetworkingManager;
+import com.keremyurekli.happyghastbuilding.helpers.ScreenHelper;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.class_11187;
-import net.minecraft.component.ComponentType;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.BlockStateComponent;
 import net.minecraft.entity.*;
-import net.minecraft.entity.mob.PiglinEntity;
-import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtHelper;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.state.property.Properties;
 import net.minecraft.state.property.Property;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.WorldSavePath;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Happyghastbuilding implements ModInitializer {
 
 
 
+
+
     @Override
     public void onInitialize() {
-//        Constant.LOGGER.info("Starting up pal...");
 
-//        ItemManager.registerItems();
+        NetworkingManager.registerPayloads();
+        NetworkingManager.imServer();
+
+        ScreenHelper.registerStuff();
+
+
 
         new ItemManager();
+
+
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
             return entityHandleV1(player,world,hand,entity,hitResult);
         });
+        ServerPlayConnectionEvents.INIT.register((ServerPlayNetworkHandler handler, MinecraftServer server)->{
+            Constant.INFO_LIST.forEach((uuid, ghastInfo) -> {
+                NetworkingManager.sendGhastAddedPayload(handler.player,new GhastAddedPayload(ghastInfo.ghastUUID));
+                NetworkingManager.sendFurnaceStatePayload(handler.player,new FurnaceStatePayload(ghastInfo.ghastUUID, ghastInfo.isLit));
+            });
+        });
+
+
+//
+        ServerLifecycleEvents.SERVER_STARTING.register((server -> {
+//            Constant.LOGGER.info("**************STARTING "+Constant.INFO_LIST.keySet().size());
+            FileManager.load(server.getSavePath(WorldSavePath.ROOT),server.getRegistryManager());
+        }));
+//
+        ServerLifecycleEvents.SERVER_STOPPING.register((server)->{
+//            Constant.LOGGER.info("/////////////////STOPPING "+Constant.INFO_LIST.keySet().size());
+            FileManager.save(server.getSavePath(WorldSavePath.ROOT));
+//            server.getWorlds().forEach(sw -> {
+//                sw.getPersistentStateManager().
+//            });
+        });
+
+
 
     }
-
-
 
     private static ActionResult entityHandleV1(PlayerEntity player, World world, Hand hand, Entity entity, EntityHitResult hitResult) {
         // This makes sure it runs only on the server
@@ -73,6 +85,16 @@ public class Happyghastbuilding implements ModInitializer {
             return ActionResult.PASS;
         }
         if (!world.isClient) {
+//            Vec3d start = player.getEyePos();
+//            Vec3d rotation = player.getRotationVec(1.0F); // tickDelta doesn't matter as much here
+//            Vec3d end = start.add(rotation.multiply(distance));
+//
+//            HitResult hit = world.raycast(new RaycastContext(
+//                    start, end,
+//                    RaycastContext.ShapeType.OUTLINE,
+//                    RaycastContext.FluidHandling.NONE,
+//                    player
+//            ));
             if (entity.getType() == EntityType.HAPPY_GHAST && player.isSneaking()) {
                 ItemStack itemInHand = player.getStackInHand(hand);
                 if (itemInHand.getItem() instanceof  BlockItem blockItem) {

@@ -4,10 +4,14 @@
   "package": "com.keremyurekli.happyghastbuilding.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-
+    "server.GhastDieMixin",
+    "server.GhastTickMixin",
+    "server.HarnessApplyMixin"
   ],
   "client": [
-    "HarnessFeatureRenderer"
+    "CustomClass11261",
+    "HarnessRenderer",
+    "RightClickMixin"
   ],
   "injectors": {
     "defaultRequire": 1
