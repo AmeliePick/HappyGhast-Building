@@ -44,3 +44,6 @@ If you think this mod's source code can help with the development of your own mo
 > Loves packets  
 > Handles GUIs (save, load, interact, etc.)  
 > Receives packets about the boxes the client interacts with and performs the appropriate actions
+
+## If you want to contribute, go ahead, I'm open to all helps, especially about item icons
+
