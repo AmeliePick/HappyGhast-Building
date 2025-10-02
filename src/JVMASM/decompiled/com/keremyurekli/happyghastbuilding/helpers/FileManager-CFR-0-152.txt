@@ -1,0 +1,752 @@
+.inner public static interface abstract {
+    name: class_6890,
+    inner: net/minecraft/class_5455$class_6890,
+    outer: net/minecraft/class_5455
+}
+.inner public static interface abstract {
+    name: class_7874,
+    inner: net/minecraft/class_7225$class_7874,
+    outer: net/minecraft/class_7225
+}
+.inner public static final {
+    name: Lookup,
+    inner: java/lang/invoke/MethodHandles$Lookup,
+    outer: java/lang/invoke/MethodHandles
+}
+.sourcefile "FileManager.java"
+.super java/lang/Object
+.class public super com/keremyurekli/happyghastbuilding/helpers/FileManager {
+
+    .field private static final SUBFOLDER_NAME Ljava/lang/String; {value: "/happyghastbuilding/"}
+
+    .method public <init> ()V {
+        parameters: { this },
+        code: {
+        A: 
+            line 17
+            aload this
+            invokespecial java/lang/Object.<init> ()V
+            return 
+        B: 
+        }
+    }
+
+    .method public static save (Ljava/nio/file/Path;)V {
+        parameters: { path },
+        code: {
+        A: 
+            line 25
+            new java/io/File
+            dup 
+            aload path
+            invokestatic java/lang/String.valueOf (Ljava/lang/Object;)Ljava/lang/String;
+            invokedynamic makeConcatWithConstants (Ljava/lang/String;)Ljava/lang/String; { invokestatic, java/lang/invoke/StringConcatFactory.makeConcatWithConstants, (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite; } { "\u0001/happyghastbuilding/" }
+            invokespecial java/io/File.<init> (Ljava/lang/String;)V
+            astore folder
+        B: 
+            line 26
+            aload folder
+            invokevirtual java/io/File.mkdirs ()Z
+            ifeq D
+        C: 
+            line 27
+            getstatic com/keremyurekli/happyghastbuilding/Constant.LOGGER Lorg/slf4j/Logger;
+            aload folder
+            invokevirtual java/io/File.getPath ()Ljava/lang/String;
+            invokedynamic makeConcatWithConstants (Ljava/lang/String;)Ljava/lang/String; { invokestatic, java/lang/invoke/StringConcatFactory.makeConcatWithConstants, (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite; } { "Folder created successfully: \u0001" }
+            invokeinterface org/slf4j/Logger.info (Ljava/lang/String;)V
+            goto E
+        D: 
+            line 29
+            getstatic com/keremyurekli/happyghastbuilding/Constant.LOGGER Lorg/slf4j/Logger;
+            ldc "Folder already exists or could not be created."
+            invokeinterface org/slf4j/Logger.warn (Ljava/lang/String;)V
+        E: 
+            line 32
+            getstatic com/keremyurekli/happyghastbuilding/Constant.INFO_LIST Ljava/util/HashMap;
+            aload folder
+            invokedynamic accept (Ljava/io/File;)Ljava/util/function/BiConsumer; LambdaMetafactory.metafactory { (Ljava/lang/Object;Ljava/lang/Object;)V, { invokestatic, com/keremyurekli/happyghastbuilding/helpers/FileManager.lambda$save$1, (Ljava/io/File;Ljava/util/UUID;Lcom/keremyurekli/happyghastbuilding/weirdstuff/GhastInfo;)V }, (Ljava/util/UUID;Lcom/keremyurekli/happyghastbuilding/weirdstuff/GhastInfo;)V }
+            invokevirtual java/util/HashMap.forEach (Ljava/util/function/BiConsumer;)V
+        F: 
+            line 46
+            return 
+        G: 
+        }
+    }
+
+    .signature "(Ljava/lang/String;Ljava/util/List<Lnet/minecraft/class_1799;>;)Ljava/util/Map<Ljava/lang/String;Ljava/util/Map<Ljava/lang/Integer;Ljava/lang/String;>;>;"
+    .method public static saveInventoryWithCodec (Ljava/lang/String;Ljava/util/List;)Ljava/util/Map; {
+        parameters: { name, inventory },
+        code: {
+        A: 
+            line 49
+            new java/util/HashMap
+            dup 
+            invokespecial java/util/HashMap.<init> ()V
+            astore datas
+        B: 
+            line 51
+            iconst_0 
+            istore i
+        C: 
+            iload i
+            aload inventory
+            invokeinterface java/util/List.size ()I
+            if_icmpge M
+        D: 
+            line 52
+            aload inventory
+            iload i
+            invokeinterface java/util/List.get (I)Ljava/lang/Object;
+            checkcast net/minecraft/class_1799
+            astore stack
+        E: 
+            line 53
+            aload stack
+            invokevirtual net/minecraft/class_1799.method_7960 ()Z
+            ifne L
+        F: 
+            line 54
+            getstatic net/minecraft/class_1799.field_24671 Lcom/mojang/serialization/Codec;
+            aload stack
+            getstatic net/minecraft/class_2509.field_11560 Lnet/minecraft/class_2509;
+            getstatic net/minecraft/class_2509.field_11560 Lnet/minecraft/class_2509;
+            invokevirtual net/minecraft/class_2509.method_10668 ()Lnet/minecraft/class_2520;
+            invokeinterface com/mojang/serialization/Codec.encode (Ljava/lang/Object;Lcom/mojang/serialization/DynamicOps;Ljava/lang/Object;)Lcom/mojang/serialization/DataResult;
+            astore nbt
+        G: 
+            line 55
+            ldc ""
+            astore string
+        H: 
+            line 56
+            aload nbt
+            invokeinterface com/mojang/serialization/DataResult.result ()Ljava/util/Optional;
+            invokevirtual java/util/Optional.isPresent ()Z
+            ifeq J
+        I: 
+            line 58
+            aload nbt
+            invokeinterface com/mojang/serialization/DataResult.result ()Ljava/util/Optional;
+            invokevirtual java/util/Optional.get ()Ljava/lang/Object;
+            checkcast net/minecraft/class_2520
+            invokeinterface net/minecraft/class_2520.toString ()Ljava/lang/String;
+            astore string
+            goto K
+        J: 
+            line 61
+            new java/lang/AssertionError
+            dup 
+            aload nbt
+            invokeinterface com/mojang/serialization/DataResult.error ()Ljava/util/Optional;
+            invokevirtual java/util/Optional.get ()Ljava/lang/Object;
+            invokespecial java/lang/AssertionError.<init> (Ljava/lang/Object;)V
+            athrow 
+        K: 
+            line 63
+            aload datas
+            iload i
+            invokestatic java/lang/Integer.valueOf (I)Ljava/lang/Integer;
+            aload string
+            invokeinterface java/util/Map.put (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+            pop 
+        L: 
+            line 51
+            iinc i 1
+            goto C
+        M: 
+            line 66
+            new java/util/HashMap
+            dup 
+            invokespecial java/util/HashMap.<init> ()V
+            astore dataMap
+        N: 
+            line 67
+            aload dataMap
+            aload name
+            aload datas
+            invokeinterface java/util/Map.put (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+            pop 
+        O: 
+            line 69
+            aload dataMap
+            areturn 
+        P: 
+        }
+    }
+
+    .method public static destroyExtras (Ljava/nio/file/Path;)V {
+        parameters: { path },
+        code: {
+        A: 
+            line 72
+            new java/io/File
+            dup 
+            aload path
+            invokestatic java/lang/String.valueOf (Ljava/lang/Object;)Ljava/lang/String;
+            invokedynamic makeConcatWithConstants (Ljava/lang/String;)Ljava/lang/String; { invokestatic, java/lang/invoke/StringConcatFactory.makeConcatWithConstants, (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite; } { "\u0001/happyghastbuilding/" }
+            invokespecial java/io/File.<init> (Ljava/lang/String;)V
+            astore folder
+        B: 
+            line 73
+            aload folder
+            invokedynamic accept ()Ljava/io/FilenameFilter; LambdaMetafactory.metafactory { (Ljava/io/File;Ljava/lang/String;)Z, { invokestatic, com/keremyurekli/happyghastbuilding/helpers/FileManager.lambda$destroyExtras$2, (Ljava/io/File;Ljava/lang/String;)Z }, (Ljava/io/File;Ljava/lang/String;)Z }
+            invokevirtual java/io/File.listFiles (Ljava/io/FilenameFilter;)[Ljava/io/File;
+            astore ymlFiles
+        C: 
+            line 75
+            getstatic com/keremyurekli/happyghastbuilding/Constant.INFO_LIST Ljava/util/HashMap;
+            invokevirtual java/util/HashMap.clear ()V
+        D: 
+            line 77
+            new java/util/ArrayList
+            dup 
+            invokespecial java/util/ArrayList.<init> ()V
+            astore DESTROYABLES
+        E: 
+            line 78
+            aload ymlFiles
+            ifnull M
+        F: 
+            line 79
+            aload ymlFiles
+            astore v4
+            aload v4
+            arraylength 
+            istore i5
+            iconst_0 
+            istore i6
+        G: 
+            iload i6
+            iload i5
+            if_icmpge L
+            aload v4
+            iload i6
+            aaload 
+            astore file
+        H: 
+            line 80
+            aload file
+            invokevirtual java/io/File.getName ()Ljava/lang/String;
+            ldc "[.][^.]+$"
+            ldc ""
+            invokevirtual java/lang/String.replaceFirst (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+            astore uuid
+        I: 
+            line 82
+            getstatic com/keremyurekli/happyghastbuilding/Constant.INFO_LIST Ljava/util/HashMap;
+            aload uuid
+            invokestatic java/util/UUID.fromString (Ljava/lang/String;)Ljava/util/UUID;
+            invokevirtual java/util/HashMap.containsKey (Ljava/lang/Object;)Z
+            ifne K
+        J: 
+            line 83
+            aload DESTROYABLES
+            aload file
+            invokeinterface java/util/List.add (Ljava/lang/Object;)Z
+            pop 
+        K: 
+            line 79
+            iinc i6 1
+            goto G
+        L: 
+            goto N
+        M: 
+            line 88
+            getstatic com/keremyurekli/happyghastbuilding/Constant.LOGGER Lorg/slf4j/Logger;
+            ldc "Folder does not exist or is not a directory."
+            invokeinterface org/slf4j/Logger.warn (Ljava/lang/String;)V
+        N: 
+            line 90
+            iconst_0 
+            istore i
+        O: 
+            iload i
+            aload DESTROYABLES
+            invokeinterface java/util/List.size ()I
+            if_icmpge R
+        P: 
+            line 91
+            aload DESTROYABLES
+            iload i
+            invokeinterface java/util/List.get (I)Ljava/lang/Object;
+            checkcast java/io/File
+            invokevirtual java/io/File.delete ()Z
+            pop 
+        Q: 
+            line 90
+            iinc i 1
+            goto O
+        R: 
+            line 93
+            return 
+        S: 
+        }
+    }
+
+    .method public static load (Ljava/nio/file/Path;Lnet/minecraft/class_5455$class_6890;)V {
+        parameters: { path, registryManager },
+        exceptions: { 
+            { K, O, P, Ljava/lang/Throwable; }, 
+            { Q, R, S, Ljava/lang/Throwable; }, 
+            { J, U, V, Ljava/io/FileNotFoundException; }, 
+            { J, U, X, Ljava/io/IOException; }
+         },
+        code: {
+        A: 
+        	
+            line 96
+            new java/io/File
+            dup 
+            aload path
+            invokestatic java/lang/String.valueOf (Ljava/lang/Object;)Ljava/lang/String;
+            invokedynamic makeConcatWithConstants (Ljava/lang/String;)Ljava/lang/String; { invokestatic, java/lang/invoke/StringConcatFactory.makeConcatWithConstants, (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite; } { "\u0001/happyghastbuilding/" }
+            invokespecial java/io/File.<init> (Ljava/lang/String;)V
+            astore folder
+        B: 
+            line 97
+            aload folder
+            invokedynamic accept ()Ljava/io/FilenameFilter; LambdaMetafactory.metafactory { (Ljava/io/File;Ljava/lang/String;)Z, { invokestatic, com/keremyurekli/happyghastbuilding/helpers/FileManager.lambda$load$3, (Ljava/io/File;Ljava/lang/String;)Z }, (Ljava/io/File;Ljava/lang/String;)Z }
+            invokevirtual java/io/File.listFiles (Ljava/io/FilenameFilter;)[Ljava/io/File;
+            astore ymlFiles
+        C: 
+            line 99
+            getstatic com/keremyurekli/happyghastbuilding/Constant.INFO_LIST Ljava/util/HashMap;
+            invokevirtual java/util/HashMap.clear ()V
+        D: 
+            line 101
+            aload ymlFiles
+            ifnull AB
+        E: 
+            line 102
+            aload ymlFiles
+            astore v4
+            aload v4
+            arraylength 
+            istore i5
+            iconst_0 
+            istore i6
+        F: 
+            iload i6
+            iload i5
+            if_icmpge AA
+            aload v4
+            iload i6
+            aaload 
+            astore file
+        G: 
+            line 103
+            aload file
+            invokevirtual java/io/File.getName ()Ljava/lang/String;
+            ldc "[.][^.]+$"
+            ldc ""
+            invokevirtual java/lang/String.replaceFirst (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+            astore uuid
+        H: 
+            line 105
+            aload uuid
+            invokestatic java/util/UUID.fromString (Ljava/lang/String;)Ljava/util/UUID;
+            invokestatic com/keremyurekli/happyghastbuilding/helpers/GhastHelper.addNewGhast (Ljava/util/UUID;)Lcom/keremyurekli/happyghastbuilding/weirdstuff/GhastInfo;
+            astore info
+        I: 
+            line 107
+            new org/yaml/snakeyaml/Yaml
+            dup 
+            invokespecial org/yaml/snakeyaml/Yaml.<init> ()V
+            astore yaml
+        J: 
+            // try-start:   range=[J-U] handler=V:java/io/FileNotFoundException 
+            // try-start:   range=[J-U] handler=X:java/io/IOException 
+            line 108
+            new java/io/FileInputStream
+            dup 
+            aload file
+            invokespecial java/io/FileInputStream.<init> (Ljava/io/File;)V
+            astore input
+        K: 
+            // try-start:   range=[K-O] handler=P:java/lang/Throwable 
+            line 109
+            aload yaml
+            aload input
+            invokevirtual org/yaml/snakeyaml/Yaml.load (Ljava/io/InputStream;)Ljava/lang/Object;
+            checkcast java/util/Map
+            astore data
+        L: 
+            line 110
+            aload data
+            ifnull N
+        M: 
+            line 111
+            aload data
+            aload registryManager
+            aload uuid
+            invokedynamic accept (Lnet/minecraft/class_5455$class_6890;Ljava/lang/String;)Ljava/util/function/BiConsumer; LambdaMetafactory.metafactory { (Ljava/lang/Object;Ljava/lang/Object;)V, { invokestatic, com/keremyurekli/happyghastbuilding/helpers/FileManager.lambda$load$6, (Lnet/minecraft/class_5455$class_6890;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)V }, (Ljava/lang/String;Ljava/util/Map;)V }
+            invokeinterface java/util/Map.forEach (Ljava/util/function/BiConsumer;)V
+            goto O
+        N: 
+            line 140
+            getstatic com/keremyurekli/happyghastbuilding/Constant.LOGGER Lorg/slf4j/Logger;
+            ldc "Somethings wrong! please contact the dev #fm126"
+            invokeinterface org/slf4j/Logger.warn (Ljava/lang/String;)V
+        O: 
+            // try-end:     range=[K-O] handler=P:java/lang/Throwable 
+            line 143
+            aload input
+            invokevirtual java/io/InputStream.close ()V
+            goto U
+        P: 
+            // try-handler: range=[K-O] handler=P:java/lang/Throwable 
+            line 108
+            astore v12
+        Q: 
+            // try-start:   range=[Q-R] handler=S:java/lang/Throwable 
+            aload input
+            invokevirtual java/io/InputStream.close ()V
+        R: 
+            // try-end:     range=[Q-R] handler=S:java/lang/Throwable 
+            goto T
+        S: 
+            // try-handler: range=[Q-R] handler=S:java/lang/Throwable 
+            astore v13
+            aload v12
+            aload v13
+            invokevirtual java/lang/Throwable.addSuppressed (Ljava/lang/Throwable;)V
+        T: 
+            aload v12
+            athrow 
+        U: 
+            // try-end:     range=[J-U] handler=V:java/io/FileNotFoundException 
+            // try-end:     range=[J-U] handler=X:java/io/IOException 
+            line 147
+            goto Z
+        V: 
+            // try-handler: range=[J-U] handler=V:java/io/FileNotFoundException 
+            line 143
+            astore e
+        W: 
+            line 144
+            new java/lang/RuntimeException
+            dup 
+            aload e
+            invokespecial java/lang/RuntimeException.<init> (Ljava/lang/Throwable;)V
+            athrow 
+        X: 
+            // try-handler: range=[J-U] handler=X:java/io/IOException 
+            line 145
+            astore e2
+        Y: 
+            line 146
+            new java/lang/RuntimeException
+            dup 
+            aload e2
+            invokespecial java/lang/RuntimeException.<init> (Ljava/lang/Throwable;)V
+            athrow 
+        Z: 
+            line 102
+            iinc i6 1
+            goto F
+        AA: 
+            goto AC
+        AB: 
+            line 153
+            getstatic com/keremyurekli/happyghastbuilding/Constant.LOGGER Lorg/slf4j/Logger;
+            ldc "Folder does not exist or is not a directory."
+            invokeinterface org/slf4j/Logger.warn (Ljava/lang/String;)V
+        AC: 
+            line 155
+            return 
+        AD: 
+        }
+    }
+
+    .method private static synthetic lambda$load$6 (Lnet/minecraft/class_5455$class_6890;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)V {
+        parameters: { registryManager, uuid, key, integerStringMap },
+        code: {
+        A: 
+        	
+            line 114
+            aload key
+            ldc "dispenser"
+            invokevirtual java/lang/String.contains (Ljava/lang/CharSequence;)Z
+            ifeq D
+        B: 
+            line 115
+            bipush 9
+            getstatic net/minecraft/class_1799.field_8037 Lnet/minecraft/class_1799;
+            invokestatic net/minecraft/class_2371.method_10213 (ILjava/lang/Object;)Lnet/minecraft/class_2371;
+            astore list
+        C: 
+            goto K
+        D: 
+            line 116
+            aload key
+            ldc "chest"
+            invokevirtual java/lang/String.contains (Ljava/lang/CharSequence;)Z
+			ifeq G
+        E: 
+            line 117
+            bipush 27
+            getstatic net/minecraft/class_1799.field_8037 Lnet/minecraft/class_1799;
+            invokestatic net/minecraft/class_2371.method_10213 (ILjava/lang/Object;)Lnet/minecraft/class_2371;
+            astore list
+        F: 
+            goto K
+        G: 
+            line 118
+            aload key
+            ldc "furnace"
+            invokevirtual java/lang/String.contains (Ljava/lang/CharSequence;)Z
+            ifeq J
+        H: 
+            line 119
+            iconst_3 
+            getstatic net/minecraft/class_1799.field_8037 Lnet/minecraft/class_1799;
+            invokestatic net/minecraft/class_2371.method_10213 (ILjava/lang/Object;)Lnet/minecraft/class_2371;
+            astore list
+        I: 
+            goto K
+        J: 
+            line 121
+            aconst_null 
+            astore list
+            
+        K: 
+            line 124
+            aload integerStringMap
+            invokeinterface java/util/Map.isEmpty ()Z
+            ifne O
+        L: 
+            line 125
+            aload integerStringMap
+            aload registryManager
+            aload list
+            invokedynamic accept (Lnet/minecraft/class_5455$class_6890;Lnet/minecraft/class_2371;)Ljava/util/function/BiConsumer; LambdaMetafactory.metafactory { (Ljava/lang/Object;Ljava/lang/Object;)V, { invokestatic, com/keremyurekli/happyghastbuilding/helpers/FileManager.lambda$load$4, (Lnet/minecraft/class_5455$class_6890;Lnet/minecraft/class_2371;Ljava/lang/Integer;Ljava/lang/String;)V }, (Ljava/lang/Integer;Ljava/lang/String;)V }
+            invokeinterface java/util/Map.forEach (Ljava/util/function/BiConsumer;)V
+        M: 
+            line 136
+            return
+            getstatic com/keremyurekli/happyghastbuilding/Constant.INFO_LIST Ljava/util/HashMap;
+            aload uuid
+            invokestatic java/util/UUID.fromString (Ljava/lang/String;)Ljava/util/UUID;
+            invokevirtual java/util/HashMap.get (Ljava/lang/Object;)Ljava/lang/Object;
+            checkcast com/keremyurekli/happyghastbuilding/weirdstuff/GhastInfo
+            astore ghastInfo
+        N: 
+            line 137
+            aload ghastInfo
+            getfield com/keremyurekli/happyghastbuilding/weirdstuff/GhastInfo.inventories Ljava/util/HashMap;
+            aload key
+            aload list
+            invokedynamic apply (Lnet/minecraft/class_2371;)Ljava/util/function/Function; LambdaMetafactory.metafactory { (Ljava/lang/Object;)Ljava/lang/Object;, { invokestatic, com/keremyurekli/happyghastbuilding/helpers/FileManager.lambda$load$5, (Lnet/minecraft/class_2371;Ljava/lang/String;)Ljava/util/List; }, (Ljava/lang/String;)Ljava/util/List; }
+            invokevirtual java/util/HashMap.computeIfAbsent (Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;
+            pop 
+        O: 
+            line 138
+            return 
+        P: 
+        }
+    }
+
+    .method private static synthetic lambda$load$5 (Lnet/minecraft/class_2371;Ljava/lang/String;)Ljava/util/List; {
+        parameters: { list, k },
+        code: {
+        A: 
+            line 137
+            aload list
+            areturn 
+        B: 
+        }
+    }
+
+    .method private static synthetic lambda$load$4 (Lnet/minecraft/class_5455$class_6890;Lnet/minecraft/class_2371;Ljava/lang/Integer;Ljava/lang/String;)V {
+        parameters: { registryManager, list, integer, s },
+        exceptions: { 
+            { A, B, C, Lcom/mojang/brigadier/exceptions/CommandSyntaxException; }
+         },
+        code: {
+        A: 
+	        return
+            // try-start:   range=[A-B] handler=C:com/mojang/brigadier/exceptions/CommandSyntaxException 
+            line 128
+            getstatic com/keremyurekli/happyghastbuilding/Constant.LOGGER Lorg/slf4j/Logger;
+            aload s
+            invokeinterface org/slf4j/Logger.warn (Ljava/lang/String;)V
+            
+            aload registryManager
+            aload s
+            
+            
+            
+            
+            // NOTE: they removed fromNbt method for StackItem
+            //invokestatic net/minecraft/class_2522.method_67315 (Ljava/lang/String;)Lnet/minecraft/class_2487;
+            //invokestatic net/minecraft/class_1799.method_57360 (Lnet/minecraft/class_7225$class_7874;Lnet/minecraft/class_2520;)Ljava/util/Optional;
+            //getstatic net/minecraft/class_1799.field_8037 Lnet/minecraft/class_1799;
+            //invokevirtual java/util/Optional.orElse (Ljava/lang/Object;)Ljava/lang/Object;
+            //checkcast net/minecraft/class_1799
+            //astore i
+
+        B: 
+            // try-end:     range=[A-B] handler=C:com/mojang/brigadier/exceptions/CommandSyntaxException 
+            line 131
+            goto E
+        C: 
+            // try-handler: range=[A-B] handler=C:com/mojang/brigadier/exceptions/CommandSyntaxException 
+            line 129
+            astore e
+        D: 
+            line 130
+            new java/lang/RuntimeException
+            dup 
+            aload e
+            invokespecial java/lang/RuntimeException.<init> (Ljava/lang/Throwable;)V
+            athrow 
+        E: 
+            line 132
+            aload list
+            aload integer
+            invokevirtual java/lang/Integer.intValue ()I
+            aload i
+            invokevirtual net/minecraft/class_2371.set (ILjava/lang/Object;)Ljava/lang/Object;
+            pop 
+        F: 
+            line 134
+            return 
+        G: 
+        }
+    }
+
+    .method private static synthetic lambda$load$3 (Ljava/io/File;Ljava/lang/String;)Z {
+        parameters: { dir, name },
+        code: {
+        A: 
+            line 97
+            aload name
+            invokevirtual java/lang/String.toLowerCase ()Ljava/lang/String;
+            ldc ".yml"
+            invokevirtual java/lang/String.endsWith (Ljava/lang/String;)Z
+            ireturn 
+        B: 
+        }
+    }
+
+    .method private static synthetic lambda$destroyExtras$2 (Ljava/io/File;Ljava/lang/String;)Z {
+        parameters: { dir, name },
+        code: {
+        A: 
+            line 73
+            aload name
+            invokevirtual java/lang/String.toLowerCase ()Ljava/lang/String;
+            ldc ".yml"
+            invokevirtual java/lang/String.endsWith (Ljava/lang/String;)Z
+            ireturn 
+        B: 
+        }
+    }
+
+    .method private static synthetic lambda$save$1 (Ljava/io/File;Ljava/util/UUID;Lcom/keremyurekli/happyghastbuilding/weirdstuff/GhastInfo;)V {
+        parameters: { folder, uuid, ghastInfo },
+        exceptions: { 
+            { C, E, F, Ljava/lang/Throwable; }, 
+            { G, H, I, Ljava/lang/Throwable; }, 
+            { B, K, L, Ljava/io/IOException; }
+         },
+        code: {
+        A: 
+            line 33
+            new java/io/File
+            dup 
+            aload folder
+            aload uuid
+            invokestatic java/lang/String.valueOf (Ljava/lang/Object;)Ljava/lang/String;
+            invokedynamic makeConcatWithConstants (Ljava/lang/String;)Ljava/lang/String; { invokestatic, java/lang/invoke/StringConcatFactory.makeConcatWithConstants, (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite; } { "\u0001.yml" }
+            invokespecial java/io/File.<init> (Ljava/io/File;Ljava/lang/String;)V
+            astore target
+        B: 
+            // try-start:   range=[B-K] handler=L:java/io/IOException 
+            line 35
+            new java/io/FileWriter
+            dup 
+            aload target
+            iconst_0 
+            invokespecial java/io/FileWriter.<init> (Ljava/io/File;Z)V
+            astore writer
+        C: 
+            // try-start:   range=[C-E] handler=F:java/lang/Throwable 
+            line 37
+            new org/yaml/snakeyaml/Yaml
+            dup 
+            invokespecial org/yaml/snakeyaml/Yaml.<init> ()V
+            astore yaml
+        D: 
+            line 38
+            aload ghastInfo
+            getfield com/keremyurekli/happyghastbuilding/weirdstuff/GhastInfo.inventories Ljava/util/HashMap;
+            aload yaml
+            aload writer
+            invokedynamic accept (Lorg/yaml/snakeyaml/Yaml;Ljava/io/FileWriter;)Ljava/util/function/BiConsumer; LambdaMetafactory.metafactory { (Ljava/lang/Object;Ljava/lang/Object;)V, { invokestatic, com/keremyurekli/happyghastbuilding/helpers/FileManager.lambda$save$0, (Lorg/yaml/snakeyaml/Yaml;Ljava/io/FileWriter;Ljava/lang/String;Ljava/util/List;)V }, (Ljava/lang/String;Ljava/util/List;)V }
+            invokevirtual java/util/HashMap.forEach (Ljava/util/function/BiConsumer;)V
+        E: 
+            // try-end:     range=[C-E] handler=F:java/lang/Throwable 
+            line 42
+            aload writer
+            invokevirtual java/io/FileWriter.close ()V
+            goto K
+        F: 
+            // try-handler: range=[C-E] handler=F:java/lang/Throwable 
+            line 35
+            astore v5
+        G: 
+            // try-start:   range=[G-H] handler=I:java/lang/Throwable 
+            aload writer
+            invokevirtual java/io/FileWriter.close ()V
+        H: 
+            // try-end:     range=[G-H] handler=I:java/lang/Throwable 
+            goto J
+        I: 
+            // try-handler: range=[G-H] handler=I:java/lang/Throwable 
+            astore v6
+            aload v5
+            aload v6
+            invokevirtual java/lang/Throwable.addSuppressed (Ljava/lang/Throwable;)V
+        J: 
+            aload v5
+            athrow 
+        K: 
+            // try-end:     range=[B-K] handler=L:java/io/IOException 
+            line 44
+            goto N
+        L: 
+            // try-handler: range=[B-K] handler=L:java/io/IOException 
+            line 42
+            astore e
+        M: 
+            line 43
+            aload e
+            invokevirtual java/io/IOException.printStackTrace ()V
+        N: 
+            line 45
+            return 
+        O: 
+        }
+    }
+
+    .method private static synthetic lambda$save$0 (Lorg/yaml/snakeyaml/Yaml;Ljava/io/FileWriter;Ljava/lang/String;Ljava/util/List;)V {
+        parameters: { yaml, writer, s, itemStacks },
+        code: {
+        A: 
+            line 40
+            aload yaml
+            aload s
+            aload itemStacks
+            invokestatic com/keremyurekli/happyghastbuilding/helpers/FileManager.saveInventoryWithCodec (Ljava/lang/String;Ljava/util/List;)Ljava/util/Map;
+            aload writer
+            invokevirtual org/yaml/snakeyaml/Yaml.dump (Ljava/lang/Object;Ljava/io/Writer;)V
+        B: 
+            line 41
+            return 
+        C: 
+        }
+    }
+
+}

@@ -1,0 +1,587 @@
+.inner public static interface abstract {
+    name: Init,
+    inner: net/fabricmc/fabric/api/networking/v1/ServerPlayConnectionEvents$Init,
+    outer: net/fabricmc/fabric/api/networking/v1/ServerPlayConnectionEvents
+}
+.inner public static interface abstract {
+    name: ServerStarting,
+    inner: net/fabricmc/fabric/api/event/lifecycle/v1/ServerLifecycleEvents$ServerStarting,
+    outer: net/fabricmc/fabric/api/event/lifecycle/v1/ServerLifecycleEvents
+}
+.inner public static interface abstract {
+    name: ServerStopping,
+    inner: net/fabricmc/fabric/api/event/lifecycle/v1/ServerLifecycleEvents$ServerStopping,
+    outer: net/fabricmc/fabric/api/event/lifecycle/v1/ServerLifecycleEvents
+}
+.inner public static final {
+    name: class_9859,
+    inner: net/minecraft/class_1269$class_9859,
+    outer: net/minecraft/class_1269
+}
+.inner public static abstract enum {
+    name: class_2351,
+    inner: net/minecraft/class_2350$class_2351,
+    outer: net/minecraft/class_2350
+}
+.inner public static final {
+    name: class_9860,
+    inner: net/minecraft/class_1269$class_9860,
+    outer: net/minecraft/class_1269
+}
+.inner public static interface abstract {
+    name: class_6890,
+    inner: net/minecraft/class_5455$class_6890,
+    outer: net/minecraft/class_5455
+}
+.inner public static final {
+    name: Lookup,
+    inner: java/lang/invoke/MethodHandles$Lookup,
+    outer: java/lang/invoke/MethodHandles
+}
+.sourcefile "Happyghastbuilding.java"
+.super java/lang/Object
+.implements net/fabricmc/api/ModInitializer
+.class public super com/keremyurekli/happyghastbuilding/Happyghastbuilding {
+
+
+    .method public <init> ()V {
+        parameters: { this },
+        code: {
+        A: 
+            line 34
+            aload this
+            invokespecial java/lang/Object.<init> ()V
+            return 
+        B: 
+        }
+    }
+
+    .method public onInitialize ()V {
+        parameters: { this },
+        code: {
+        A: 
+            line 43
+            invokestatic com/keremyurekli/happyghastbuilding/networking/NetworkingManager.registerPayloads ()V
+        B: 
+            line 44
+            invokestatic com/keremyurekli/happyghastbuilding/networking/NetworkingManager.imServer ()V
+        C: 
+            line 46
+            invokestatic com/keremyurekli/happyghastbuilding/helpers/ScreenHelper.registerStuff ()V
+        D: 
+            line 50
+            new com/keremyurekli/happyghastbuilding/ItemManager
+            dup 
+            invokespecial com/keremyurekli/happyghastbuilding/ItemManager.<init> ()V
+            pop 
+        E: 
+            line 53
+            getstatic net/fabricmc/fabric/api/event/player/UseEntityCallback.EVENT Lnet/fabricmc/fabric/api/event/Event;
+            invokedynamic interact ()Lnet/fabricmc/fabric/api/event/player/UseEntityCallback; LambdaMetafactory.metafactory { (Lnet/minecraft/class_1657;Lnet/minecraft/class_1937;Lnet/minecraft/class_1268;Lnet/minecraft/class_1297;Lnet/minecraft/class_3966;)Lnet/minecraft/class_1269;, { invokestatic, com/keremyurekli/happyghastbuilding/Happyghastbuilding.lambda$onInitialize$0, (Lnet/minecraft/class_1657;Lnet/minecraft/class_1937;Lnet/minecraft/class_1268;Lnet/minecraft/class_1297;Lnet/minecraft/class_3966;)Lnet/minecraft/class_1269; }, (Lnet/minecraft/class_1657;Lnet/minecraft/class_1937;Lnet/minecraft/class_1268;Lnet/minecraft/class_1297;Lnet/minecraft/class_3966;)Lnet/minecraft/class_1269; }
+            invokevirtual net/fabricmc/fabric/api/event/Event.register (Ljava/lang/Object;)V
+        F: 
+            line 56
+            getstatic net/fabricmc/fabric/api/networking/v1/ServerPlayConnectionEvents.INIT Lnet/fabricmc/fabric/api/event/Event;
+            invokedynamic onPlayInit ()Lnet/fabricmc/fabric/api/networking/v1/ServerPlayConnectionEvents$Init; LambdaMetafactory.metafactory { (Lnet/minecraft/class_3244;Lnet/minecraft/server/MinecraftServer;)V, { invokestatic, com/keremyurekli/happyghastbuilding/Happyghastbuilding.lambda$onInitialize$2, (Lnet/minecraft/class_3244;Lnet/minecraft/server/MinecraftServer;)V }, (Lnet/minecraft/class_3244;Lnet/minecraft/server/MinecraftServer;)V }
+            invokevirtual net/fabricmc/fabric/api/event/Event.register (Ljava/lang/Object;)V
+        G: 
+            line 65
+            getstatic net/fabricmc/fabric/api/event/lifecycle/v1/ServerLifecycleEvents.SERVER_STARTING Lnet/fabricmc/fabric/api/event/Event;
+            invokedynamic onServerStarting ()Lnet/fabricmc/fabric/api/event/lifecycle/v1/ServerLifecycleEvents$ServerStarting; LambdaMetafactory.metafactory { (Lnet/minecraft/server/MinecraftServer;)V, { invokestatic, com/keremyurekli/happyghastbuilding/Happyghastbuilding.lambda$onInitialize$3, (Lnet/minecraft/server/MinecraftServer;)V }, (Lnet/minecraft/server/MinecraftServer;)V }
+            invokevirtual net/fabricmc/fabric/api/event/Event.register (Ljava/lang/Object;)V
+        H: 
+            line 70
+            getstatic net/fabricmc/fabric/api/event/lifecycle/v1/ServerLifecycleEvents.SERVER_STOPPING Lnet/fabricmc/fabric/api/event/Event;
+            invokedynamic onServerStopping ()Lnet/fabricmc/fabric/api/event/lifecycle/v1/ServerLifecycleEvents$ServerStopping; LambdaMetafactory.metafactory { (Lnet/minecraft/server/MinecraftServer;)V, { invokestatic, com/keremyurekli/happyghastbuilding/Happyghastbuilding.lambda$onInitialize$4, (Lnet/minecraft/server/MinecraftServer;)V }, (Lnet/minecraft/server/MinecraftServer;)V }
+            invokevirtual net/fabricmc/fabric/api/event/Event.register (Ljava/lang/Object;)V
+        I: 
+            line 80
+            return 
+        J: 
+        }
+    }
+
+    .method private static entityHandleV1 (Lnet/minecraft/class_1657;Lnet/minecraft/class_1937;Lnet/minecraft/class_1268;Lnet/minecraft/class_1297;Lnet/minecraft/class_3966;)Lnet/minecraft/class_1269; {
+        parameters: { player, world, hand, entity, hitResult },
+        code: {
+        A: 
+            line 84
+            aload hitResult
+            ifnonnull C
+        B: 
+            line 85
+            getstatic net/minecraft/class_1269.field_5811 Lnet/minecraft/class_1269$class_9859;
+            areturn 
+        C: 
+            line 87
+            aload world
+            getfield net/minecraft/class_1937.field_9236 Z
+            ifne BE
+        D: 
+            line 98
+            aload entity
+            invokevirtual net/minecraft/class_1297.method_5864 ()Lnet/minecraft/class_1299;
+            getstatic net/minecraft/class_1299.field_59668 Lnet/minecraft/class_1299;
+            if_acmpne BE
+            aload player
+            invokevirtual net/minecraft/class_1657.method_5715 ()Z
+            ifeq BE
+        E: 
+            line 99
+            aload player
+            aload hand
+            invokevirtual net/minecraft/class_1657.method_5998 (Lnet/minecraft/class_1268;)Lnet/minecraft/class_1799;
+            astore itemInHand
+        F: 
+            line 100
+            aload itemInHand
+            invokevirtual net/minecraft/class_1799.method_7909 ()Lnet/minecraft/class_1792;
+            astore v7
+            aload v7
+            instanceof net/minecraft/class_1747
+            ifeq BE
+            aload v7
+            checkcast net/minecraft/class_1747
+            astore blockItem
+        G: 
+            line 101
+            aload entity
+            checkcast net/minecraft/class_11187
+            astore ghast
+        H: 
+            line 102
+            aload entity
+            checkcast net/minecraft/class_1296
+            astore pe
+        I: 
+            line 103
+            aload pe
+            invokevirtual net/minecraft/class_1296.method_6109 ()Z
+            ifeq K
+        J: 
+            line 104
+            getstatic net/minecraft/class_1269.field_5811 Lnet/minecraft/class_1269$class_9859;
+            areturn 
+        K: 
+            line 106
+            aload ghast
+            // There is no method_71616 anymore. Now it's possible to place bloks also when not staying on a ghast. 
+            //invokevirtual net/minecraft/class_11187.method_71616 ()Z
+            //ifeq BD
+        L: 
+            line 107
+            aload hitResult
+            invokevirtual net/minecraft/class_3966.method_17784 ()Lnet/minecraft/class_243;
+            astore hitPos
+        M: 
+            line 108
+            aload hitPos
+            invokestatic net/minecraft/class_2338.method_49638 (Lnet/minecraft/class_2374;)Lnet/minecraft/class_2338;
+            astore blockPos
+        N: 
+            line 109
+            new net/minecraft/class_238
+            dup 
+            aload blockPos
+            invokespecial net/minecraft/class_238.<init> (Lnet/minecraft/class_2338;)V
+            astore blockBox
+        O: 
+            line 111
+            aload pe
+            invokevirtual net/minecraft/class_1296.method_5829 ()Lnet/minecraft/class_238;
+            astore entityBox
+        P: 
+            line 112
+            aload entityBox
+            invokevirtual net/minecraft/class_238.method_1005 ()Lnet/minecraft/class_243;
+            astore entityCenter
+        Q: 
+            line 115
+            aload blockBox
+            invokevirtual net/minecraft/class_238.method_1005 ()Lnet/minecraft/class_243;
+            astore blockCenter
+        R: 
+            line 117
+            aload blockBox
+            invokevirtual net/minecraft/class_238.method_1005 ()Lnet/minecraft/class_243;
+            astore newBlockPos
+        S: 
+            line 119
+            iconst_0 
+            istore x1
+        T: 
+            line 120
+            iconst_0 
+            istore y1
+        U: 
+            line 121
+            iconst_0 
+            istore z1
+        V: 
+            line 123
+            aload entityBox
+            aload blockBox
+            invokevirtual net/minecraft/class_238.method_994 (Lnet/minecraft/class_238;)Z
+            ifne W
+            goto AH
+        W: 
+            line 126
+            aload pe
+            invokevirtual net/minecraft/class_1296.method_5829 ()Lnet/minecraft/class_238;
+            aload blockBox
+            invokevirtual net/minecraft/class_238.method_999 (Lnet/minecraft/class_238;)Lnet/minecraft/class_238;
+            astore intersection
+        X: 
+            line 127
+            aload hitPos
+            getfield net/minecraft/class_243.field_1351 D
+            aload entityBox
+            getstatic net/minecraft/class_2350$class_2351.field_11052 Lnet/minecraft/class_2350$class_2351;
+            invokevirtual net/minecraft/class_238.method_990 (Lnet/minecraft/class_2350$class_2351;)D
+            dcmpl 
+            ifne AA
+        Y: 
+            line 128
+            aload intersection
+            invokevirtual net/minecraft/class_238.method_17940 ()D
+            dconst_0 
+            dcmpl 
+            ifle AH
+        Z: 
+            line 129
+            iconst_1 
+            istore y1
+            goto AH
+        AA: 
+            line 136
+            aload intersection
+            invokevirtual net/minecraft/class_238.method_17939 ()D
+            aload intersection
+            invokevirtual net/minecraft/class_238.method_17941 ()D
+            dcmpg 
+            ifge AE
+        AB: 
+            line 137
+            aload entityCenter
+            getfield net/minecraft/class_243.field_1352 D
+            aload blockCenter
+            getfield net/minecraft/class_243.field_1352 D
+            dcmpl 
+            ifle AD
+        AC: 
+            line 138
+            iconst_m1 
+            istore x1
+            goto AH
+        AD: 
+            line 140
+            iconst_1 
+            istore x1
+            goto AH
+        AE: 
+            line 143
+            aload entityCenter
+            getfield net/minecraft/class_243.field_1350 D
+            aload blockCenter
+            getfield net/minecraft/class_243.field_1350 D
+            dcmpl 
+            ifle AG
+        AF: 
+            line 144
+            iconst_m1 
+            istore z1
+            goto AH
+        AG: 
+            line 146
+            iconst_1 
+            istore z1
+        AH: 
+            line 151
+            iload x1
+            ifne AI
+            iload y1
+            ifne AI
+            iload z1
+            ifeq AJ
+        AI: 
+            line 152
+            new net/minecraft/class_2338
+            dup 
+            aload blockPos
+            invokevirtual net/minecraft/class_2338.method_10263 ()I
+            iload x1
+            iadd 
+            aload blockPos
+            invokevirtual net/minecraft/class_2338.method_10264 ()I
+            iload y1
+            iadd 
+            aload blockPos
+            invokevirtual net/minecraft/class_2338.method_10260 ()I
+            iload z1
+            iadd 
+            invokespecial net/minecraft/class_2338.<init> (III)V
+            astore blockPos
+        AJ: 
+            line 154
+            aload world
+            aload blockPos
+            invokevirtual net/minecraft/class_1937.method_8320 (Lnet/minecraft/class_2338;)Lnet/minecraft/class_2680;
+            invokevirtual net/minecraft/class_2680.method_45474 ()Z
+            ifeq BD
+        AK: 
+            line 158
+            aconst_null 
+            astore p
+        AL: 
+            line 159
+            aload blockItem
+            invokevirtual net/minecraft/class_1747.method_7711 ()Lnet/minecraft/class_2248;
+            invokevirtual net/minecraft/class_2248.method_9564 ()Lnet/minecraft/class_2680;
+            invokevirtual net/minecraft/class_2680.method_28501 ()Ljava/util/Collection;
+            invokeinterface java/util/Collection.iterator ()Ljava/util/Iterator;
+            astore v20
+        AM: 
+            aload v20
+            invokeinterface java/util/Iterator.hasNext ()Z
+            ifeq AQ
+            aload v20
+            invokeinterface java/util/Iterator.next ()Ljava/lang/Object;
+            checkcast net/minecraft/class_2769
+            astore p1
+        AN: 
+            line 160
+            aload p1
+            invokevirtual net/minecraft/class_2769.method_11899 ()Ljava/lang/String;
+            ldc "facing"
+            invokevirtual java/lang/String.equals (Ljava/lang/Object;)Z
+            ifeq AP
+        AO: 
+            line 161
+            aload p1
+            astore p
+        AP: 
+            line 163
+            goto AM
+        AQ: 
+            line 165
+            aload p
+            ifnull AS
+        AR: 
+            line 167
+            aload world
+            aload blockPos
+            aload blockItem
+            invokevirtual net/minecraft/class_1747.method_7711 ()Lnet/minecraft/class_2248;
+            invokevirtual net/minecraft/class_2248.method_9564 ()Lnet/minecraft/class_2680;
+            aload p
+            aload player
+            invokevirtual net/minecraft/class_1657.method_5735 ()Lnet/minecraft/class_2350;
+            invokevirtual net/minecraft/class_2680.method_47968 (Lnet/minecraft/class_2769;Ljava/lang/Comparable;)Ljava/lang/Object;
+            checkcast net/minecraft/class_2680
+            invokevirtual net/minecraft/class_1937.method_8501 (Lnet/minecraft/class_2338;Lnet/minecraft/class_2680;)Z
+            pop 
+            goto AT
+        AS: 
+            line 169
+            aload world
+            aload blockPos
+            aload blockItem
+            invokevirtual net/minecraft/class_1747.method_7711 ()Lnet/minecraft/class_2248;
+            invokevirtual net/minecraft/class_2248.method_9564 ()Lnet/minecraft/class_2680;
+            invokevirtual net/minecraft/class_1937.method_8501 (Lnet/minecraft/class_2338;Lnet/minecraft/class_2680;)Z
+            pop 
+        AT: 
+            line 172
+            aload world
+            aload blockPos
+            aload itemInHand
+            invokestatic com/keremyurekli/happyghastbuilding/Happyghastbuilding.copyComponentsToBlockEntity (Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_1799;)V
+        AU: 
+            line 173
+            aload player
+            aload hand
+            invokevirtual net/minecraft/class_1657.method_6104 (Lnet/minecraft/class_1268;)V
+        AV: 
+            line 174
+            aload blockItem
+            invokevirtual net/minecraft/class_1747.method_7711 ()Lnet/minecraft/class_2248;
+            invokevirtual net/minecraft/class_2248.method_9564 ()Lnet/minecraft/class_2680;
+            invokevirtual net/minecraft/class_2680.method_26231 ()Lnet/minecraft/class_2498;
+            astore soundGroup
+        AW: 
+            line 175
+            aload world
+            aconst_null 
+            aload blockPos
+            aload soundGroup
+        AX: 
+            line 178
+            invokevirtual net/minecraft/class_2498.method_10598 ()Lnet/minecraft/class_3414;
+            getstatic net/minecraft/class_3419.field_15245 Lnet/minecraft/class_3419;
+            aload soundGroup
+        AY: 
+            line 180
+            invokevirtual net/minecraft/class_2498.method_10597 ()F
+            fconst_1 
+            fadd 
+            fconst_2 
+            fdiv 
+            aload soundGroup
+        AZ: 
+            line 181
+            invokevirtual net/minecraft/class_2498.method_10599 ()F
+            ldc 0.8000000119F
+            fmul 
+        BA: 
+            line 175
+            invokevirtual net/minecraft/class_1937.method_8396 (Lnet/minecraft/class_1297;Lnet/minecraft/class_2338;Lnet/minecraft/class_3414;Lnet/minecraft/class_3419;FF)V
+        BB: 
+            line 183
+            aload itemInHand
+            iconst_1 
+            aload player
+            invokevirtual net/minecraft/class_1799.method_57008 (ILnet/minecraft/class_1309;)V
+        BC: 
+            line 184
+            getstatic net/minecraft/class_1269.field_5812 Lnet/minecraft/class_1269$class_9860;
+            areturn 
+        BD: 
+            line 189
+            getstatic net/minecraft/class_1269.field_5812 Lnet/minecraft/class_1269$class_9860;
+            areturn 
+        BE: 
+            line 193
+            getstatic net/minecraft/class_1269.field_5811 Lnet/minecraft/class_1269$class_9859;
+            areturn 
+        BF: 
+        }
+    }
+
+    .method private static copyComponentsToBlockEntity (Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_1799;)V {
+        parameters: { world, pos, stack },
+        code: {
+        A: 
+            line 196
+            aload world
+            aload pos
+            invokevirtual net/minecraft/class_1937.method_8321 (Lnet/minecraft/class_2338;)Lnet/minecraft/class_2586;
+            astore blockEntity
+        B: 
+            line 197
+            aload blockEntity
+            ifnull E
+        C: 
+            line 198
+            aload blockEntity
+            aload stack
+            invokevirtual net/minecraft/class_2586.method_58683 (Lnet/minecraft/class_1799;)V
+        D: 
+            line 199
+            aload blockEntity
+            invokevirtual net/minecraft/class_2586.method_5431 ()V
+        E: 
+            line 201
+            return 
+        F: 
+        }
+    }
+
+    .method private static synthetic lambda$onInitialize$4 (Lnet/minecraft/server/MinecraftServer;)V {
+        parameters: { server },
+        code: {
+        A: 
+            line 72
+            aload server
+            getstatic net/minecraft/class_5218.field_24188 Lnet/minecraft/class_5218;
+            invokevirtual net/minecraft/server/MinecraftServer.method_27050 (Lnet/minecraft/class_5218;)Ljava/nio/file/Path;
+            invokestatic com/keremyurekli/happyghastbuilding/helpers/FileManager.save (Ljava/nio/file/Path;)V
+        B: 
+            line 76
+            return 
+        C: 
+        }
+    }
+
+    .method private static synthetic lambda$onInitialize$3 (Lnet/minecraft/server/MinecraftServer;)V {
+        parameters: { server },
+        code: {
+        A: 
+            line 67
+            aload server
+            getstatic net/minecraft/class_5218.field_24188 Lnet/minecraft/class_5218;
+            invokevirtual net/minecraft/server/MinecraftServer.method_27050 (Lnet/minecraft/class_5218;)Ljava/nio/file/Path;
+            aload server
+            invokevirtual net/minecraft/server/MinecraftServer.method_30611 ()Lnet/minecraft/class_5455$class_6890;
+            invokestatic com/keremyurekli/happyghastbuilding/helpers/FileManager.load (Ljava/nio/file/Path;Lnet/minecraft/class_5455$class_6890;)V
+        B: 
+            line 68
+            return 
+        C: 
+        }
+    }
+
+    .method private static synthetic lambda$onInitialize$2 (Lnet/minecraft/class_3244;Lnet/minecraft/server/MinecraftServer;)V {
+        parameters: { handler, server },
+        code: {
+        A: 
+            line 57
+            getstatic com/keremyurekli/happyghastbuilding/Constant.INFO_LIST Ljava/util/HashMap;
+            aload handler
+            invokedynamic accept (Lnet/minecraft/class_3244;)Ljava/util/function/BiConsumer; LambdaMetafactory.metafactory { (Ljava/lang/Object;Ljava/lang/Object;)V, { invokestatic, com/keremyurekli/happyghastbuilding/Happyghastbuilding.lambda$onInitialize$1, (Lnet/minecraft/class_3244;Ljava/util/UUID;Lcom/keremyurekli/happyghastbuilding/weirdstuff/GhastInfo;)V }, (Ljava/util/UUID;Lcom/keremyurekli/happyghastbuilding/weirdstuff/GhastInfo;)V }
+            invokevirtual java/util/HashMap.forEach (Ljava/util/function/BiConsumer;)V
+        B: 
+            line 61
+            return 
+        C: 
+        }
+    }
+
+    .method private static synthetic lambda$onInitialize$1 (Lnet/minecraft/class_3244;Ljava/util/UUID;Lcom/keremyurekli/happyghastbuilding/weirdstuff/GhastInfo;)V {
+        parameters: { handler, uuid, ghastInfo },
+        code: {
+        A: 
+            line 58
+            aload handler
+            getfield net/minecraft/class_3244.field_14140 Lnet/minecraft/class_3222;
+            new com/keremyurekli/happyghastbuilding/networking/GhastAddedPayload
+            dup 
+            aload ghastInfo
+            getfield com/keremyurekli/happyghastbuilding/weirdstuff/GhastInfo.ghastUUID Ljava/util/UUID;
+            invokespecial com/keremyurekli/happyghastbuilding/networking/GhastAddedPayload.<init> (Ljava/util/UUID;)V
+            invokestatic com/keremyurekli/happyghastbuilding/networking/NetworkingManager.sendGhastAddedPayload (Lnet/minecraft/class_3222;Lcom/keremyurekli/happyghastbuilding/networking/GhastAddedPayload;)V
+        B: 
+            line 59
+            aload handler
+            getfield net/minecraft/class_3244.field_14140 Lnet/minecraft/class_3222;
+            new com/keremyurekli/happyghastbuilding/networking/FurnaceStatePayload
+            dup 
+            aload ghastInfo
+            getfield com/keremyurekli/happyghastbuilding/weirdstuff/GhastInfo.ghastUUID Ljava/util/UUID;
+            aload ghastInfo
+            getfield com/keremyurekli/happyghastbuilding/weirdstuff/GhastInfo.isLit Z
+            invokespecial com/keremyurekli/happyghastbuilding/networking/FurnaceStatePayload.<init> (Ljava/util/UUID;Z)V
+            invokestatic com/keremyurekli/happyghastbuilding/networking/NetworkingManager.sendFurnaceStatePayload (Lnet/minecraft/class_3222;Lcom/keremyurekli/happyghastbuilding/networking/FurnaceStatePayload;)V
+        C: 
+            line 60
+            return 
+        D: 
+        }
+    }
+
+    .method private static synthetic lambda$onInitialize$0 (Lnet/minecraft/class_1657;Lnet/minecraft/class_1937;Lnet/minecraft/class_1268;Lnet/minecraft/class_1297;Lnet/minecraft/class_3966;)Lnet/minecraft/class_1269; {
+        parameters: { player, world, hand, entity, hitResult },
+        code: {
+        A: 
+            line 54
+            aload player
+            aload world
+            aload hand
+            aload entity
+            aload hitResult
+            invokestatic com/keremyurekli/happyghastbuilding/Happyghastbuilding.entityHandleV1 (Lnet/minecraft/class_1657;Lnet/minecraft/class_1937;Lnet/minecraft/class_1268;Lnet/minecraft/class_1297;Lnet/minecraft/class_3966;)Lnet/minecraft/class_1269;
+            areturn 
+        B: 
+        }
+    }
+
+}
