@@ -7,360 +7,202 @@ import com.keremyurekli.happyghastbuilding.weirdstuff.ICustomClassInterface;
 import com.keremyurekli.happyghastbuilding.weirdstuff.OnClick;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.class_10017;
+import net.minecraft.class_10042;
 import net.minecraft.class_11187;
 import net.minecraft.class_11261;
 import net.minecraft.class_11262;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.BlockRenderManager;
-import net.minecraft.client.render.entity.*;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.state.EntityRenderState;
-import net.minecraft.client.render.entity.state.LivingEntityRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.item.*;
-import net.minecraft.registry.Registries;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec2f;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.class_1299;
+import net.minecraft.class_1308;
+import net.minecraft.class_1799;
+import net.minecraft.class_2246;
+import net.minecraft.class_2350;
+import net.minecraft.class_241;
+import net.minecraft.class_243;
+import net.minecraft.class_2680;
+import net.minecraft.class_2741;
+import net.minecraft.class_2769;
+import net.minecraft.class_310;
+import net.minecraft.class_4587;
+import net.minecraft.class_4597;
+import net.minecraft.class_4608;
+import net.minecraft.class_5617;
+import net.minecraft.class_583;
+import net.minecraft.class_776;
+import net.minecraft.class_7833;
+import net.minecraft.class_927;
+import net.minecraft.class_9990;
+import org.joml.Quaternionfc;
 import org.joml.Vector3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static net.minecraft.util.math.RotationAxis.POSITIVE_Y;
-
-@Environment(EnvType.CLIENT)
-@Mixin(AgeableMobEntityRenderer.class)
-public abstract class HarnessRenderer<T extends MobEntity, S extends LivingEntityRenderState, M extends EntityModel<? super S>>
-        extends MobEntityRenderer<T, S, M> {
-
-
-    public HarnessRenderer(EntityRendererFactory.Context context, M entityModel, float f) {
+@Environment(value=EnvType.CLIENT)
+@Mixin(value={class_9990.class})
+public abstract class HarnessRenderer<T extends class_1308, S extends class_10042, M extends class_583<? super S>>
+extends class_927<T, S, M> {
+    public HarnessRenderer(class_5617.class_5618 context, M entityModel, float f) {
         super(context, entityModel, f);
     }
 
-    @Inject(method = "render(Lnet/minecraft/client/render/entity/state/EntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("TAIL"))
-    private void onInit(EntityRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
-//        Constant.LOGGER.info(String.valueOf(state.entityType));
-
-        if (state.entityType == EntityType.HAPPY_GHAST) {
-
-
-
-            class_11261 a = ((class_11261)(Object)this);
-            LivingEntityRenderState lvre = (LivingEntityRenderState) state;
-            class_11262 itemData = (class_11262) lvre;
-
+    @Inject(method={"render(Lnet/minecraft/client/render/entity/state/EntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V"}, at={@At(value="TAIL")})
+    private void onInit(class_10017 state, class_4587 matrices, class_4597 vertexConsumers, int light, CallbackInfo ci) {
+        if (state.field_58171 == class_1299.field_59668) {
+            class_11261 a = (class_11261)this;
+            class_10042 lvre = (class_10042)state;
+            class_11262 itemData = (class_11262)lvre;
             ICustomClassInterface intf = (ICustomClassInterface)a;
             class_11187 entity = intf.getEntity();
-
-            if (entity != null) {
-                if (Constant.INFO_LIST.containsKey(entity.getUuid())) {
-//                Constant.LOGGER.info("UHH");
-                    if (itemData.field_59978 != ItemStack.EMPTY) {
-//                    Constant.LOGGER.info("SECONDSHIt");
-                        String translationKey = itemData.field_59978.getItem().getTranslationKey();
-
-                        Vector3d realPos = new Vector3d(state.x,state.y,
-                                state.z);
-
-                        // I KNOW THIS SEEMS LIKE A BAD WAY TO CHECK IF ITS THE RIGHT HARNESS TYPE
-                        // BUT IM STORING CUSTOM ITEMS SEPARATELY, I DONT WANT TO CHECK THEM ONE BY ONE
-                        // actually i can put them in a list while registering but screw it, it stays like this for now
-                        GhastInfo ghastInfo = Constant.INFO_LIST.get(entity.getUuid());
-//                    ghastInfo.ghastUUID = entity.getUuid();
-                        ghastInfo.boxes.clear();
-                        if (translationKey.contains("adventurers_harness")) {
-                            ghastInfo.ghastType = 0;
-
-                            String color = translationKey.replace("item.happyghastbuilding.","")
-                                    .replace("_adventurers_harness","");
-
-                            BoxWithData table = createBlockAt(realPos,state,matrices,vertexConsumers,light,-0.25f,-0.5f, Blocks.CRAFTING_TABLE.getDefaultState());
-                            BoxWithData chest  = createBlockAt(realPos,state,matrices,vertexConsumers,light,-1.25f,-0.5f, Blocks.CHEST.getDefaultState());
-                            BlockState furnaceState = Blocks.FURNACE.getDefaultState();
-                            if (Constant.INFO_LIST.get(ghastInfo.ghastUUID).isLit) {
-                                furnaceState = Blocks.FURNACE.getDefaultState().with(Properties.LIT,true);
-                            }
-                            BoxWithData furnace  = createBlockAt(realPos,state,matrices,vertexConsumers,light,-0.25f,1.5f, furnaceState);
-
-                            table.action = OnClick.CRAFTING_TABLE;
-                            table.ghastUUID = ghastInfo.ghastUUID;
-//                        chest = new BoxWithData(table.getMinPos().add(0,0,1),table.getMaxPos().add(0,0,1));
-                            chest.action = OnClick.CHEST;
-                            chest.ghastUUID = ghastInfo.ghastUUID;
-                            furnace.action = OnClick.FURNACE;
-                            furnace.ghastUUID = ghastInfo.ghastUUID;
-
-                            BoxWithData bed = createBedTop(realPos,state,matrices,vertexConsumers,light,-0.25f,-0.5f, color);
-
-                            bed.ghastUUID = ghastInfo.ghastUUID;
-                            bed.action = OnClick.BED;
-
-                            ghastInfo.boxes.add(table);
-                            ghastInfo.boxes.add(chest);
-                            ghastInfo.boxes.add(furnace);
-                            ghastInfo.boxes.add(bed);
-//                        createBlockAt(state,matrices,vertexConsumers,light,-1,1, Items.BED);
-
-                        } else if (translationKey.contains("demolition_harness")) {
-//                            Constant.LOGGER.info("RENDERING");
-                            ghastInfo.ghastType = 1;
-
-                            String color = translationKey.replace("item.happyghastbuilding.","")
-                                    .replace("_adventurers_harness","");
-
-                            BoxWithData dispenser1 = createDispenserAt(realPos,state,matrices,vertexConsumers,light,2,3,-1.5f, Blocks.DISPENSER.getDefaultState(),0);
-                            BoxWithData dispenser1Indicator = createEmptyBoxAt(realPos,state,matrices,vertexConsumers,light,2,3,-2.5f, Blocks.REDSTONE_BLOCK.getDefaultState());
-
-
-                            BoxWithData dispenser2 = createDispenserAt(realPos,state,matrices,vertexConsumers,light,2,3,2.5f, Blocks.DISPENSER.getDefaultState(),1);
-                            BoxWithData dispenser2Indicator = createEmptyBoxAt(realPos,state,matrices,vertexConsumers,light,2,3,3.5f, Blocks.EMERALD_BLOCK.getDefaultState());
-
-
-                            BoxWithData dispenser3 = createDispenserAt(realPos,state,matrices,vertexConsumers,light,-1,3,-1.5f, Blocks.DISPENSER.getDefaultState(),0);
-                            BoxWithData dispenser3Indicator = createEmptyBoxAt(realPos,state,matrices,vertexConsumers,light,-1,3,-2.5f, Blocks.GLOWSTONE.getDefaultState());
-
-                            BoxWithData dispenser4 = createDispenserAt(realPos,state,matrices,vertexConsumers,light,-1,3,2.5f, Blocks.DISPENSER.getDefaultState(),1);
-                            BoxWithData dispenser4Indicator = createEmptyBoxAt(realPos,state,matrices,vertexConsumers,light,-1,3,3.5f, Blocks.DIAMOND_BLOCK.getDefaultState());
-
-
-
-                            dispenser1.action = OnClick.DISPENSER1;
-                            dispenser1Indicator.action = OnClick.DI1;
-                            dispenser2.action = OnClick.DISPENSER2;
-                            dispenser2Indicator.action = OnClick.DI2;
-                            dispenser3.action = OnClick.DISPENSER3;
-                            dispenser3Indicator.action = OnClick.DI3;
-                            dispenser4.action = OnClick.DISPENSER4;
-                            dispenser4Indicator.action = OnClick.DI4;
-
-                            dispenser1.ghastUUID = ghastInfo.ghastUUID;
-                            dispenser1Indicator.ghastUUID = ghastInfo.ghastUUID;
-                            dispenser2.ghastUUID = ghastInfo.ghastUUID;
-                            dispenser2Indicator.ghastUUID = ghastInfo.ghastUUID;
-                            dispenser3.ghastUUID = ghastInfo.ghastUUID;
-                            dispenser3Indicator.ghastUUID = ghastInfo.ghastUUID;
-                            dispenser4.ghastUUID = ghastInfo.ghastUUID;
-                            dispenser4Indicator.ghastUUID = ghastInfo.ghastUUID;
-
-                            ghastInfo.boxes.add(dispenser1);
-                            ghastInfo.boxes.add(dispenser2);
-                            ghastInfo.boxes.add(dispenser3);
-                            ghastInfo.boxes.add(dispenser4);
-                            ghastInfo.boxes.add(dispenser1Indicator);
-                            ghastInfo.boxes.add(dispenser2Indicator);
-                            ghastInfo.boxes.add(dispenser3Indicator);
-                            ghastInfo.boxes.add(dispenser4Indicator);
-
-                        }
-
-
-                    } else {
-//                    Constant.LOGGER.info("no item");
+            if (entity != null && Constant.INFO_LIST.containsKey(entity.method_5667()) && itemData.field_59978 != class_1799.field_8037) {
+                String translationKey = itemData.field_59978.method_7909().method_7876();
+                Vector3d realPos = new Vector3d(state.field_53325, state.field_53326, state.field_53327);
+                GhastInfo ghastInfo = (GhastInfo)Constant.INFO_LIST.get(entity.method_5667());
+                ghastInfo.boxes.clear();
+                if (translationKey.contains("adventurers_harness")) {
+                    ghastInfo.ghastType = 0;
+                    String color = translationKey.replace("item.happyghastbuilding.", "").replace("_adventurers_harness", "");
+                    BoxWithData table = this.createBlockAt(realPos, state, matrices, vertexConsumers, light, -0.25f, -0.5f, class_2246.field_9980.method_9564());
+                    class_2680 furnaceState = class_2246.field_10181.method_9564();
+                    if (((GhastInfo)Constant.INFO_LIST.get((Object)ghastInfo.ghastUUID)).isLit) {
+                        furnaceState = (class_2680)class_2246.field_10181.method_9564().method_11657((class_2769)class_2741.field_12548, (Comparable)Boolean.valueOf(true));
                     }
-
+                    BoxWithData furnace = this.createBlockAt(realPos, state, matrices, vertexConsumers, light, -0.25f, 1.5f, furnaceState);
+                    table.action = OnClick.CRAFTING_TABLE;
+                    table.ghastUUID = ghastInfo.ghastUUID;
+                    furnace.action = OnClick.FURNACE;
+                    furnace.ghastUUID = ghastInfo.ghastUUID;
+                    ghastInfo.boxes.add(table);
+                    ghastInfo.boxes.add(furnace);
+                } else if (translationKey.contains("demolition_harness")) {
+                    ghastInfo.ghastType = 1;
+                    String color = translationKey.replace("item.happyghastbuilding.", "").replace("_adventurers_harness", "");
+                    BoxWithData dispenser1 = this.createDispenserAt(realPos, state, matrices, vertexConsumers, light, 2.0f, 3.0f, -1.5f, class_2246.field_10200.method_9564(), 0);
+                    BoxWithData dispenser1Indicator = this.createEmptyBoxAt(realPos, state, matrices, vertexConsumers, light, 2.0f, 3.0f, -2.5f, class_2246.field_10002.method_9564());
+                    BoxWithData dispenser2 = this.createDispenserAt(realPos, state, matrices, vertexConsumers, light, 2.0f, 3.0f, 2.5f, class_2246.field_10200.method_9564(), 1);
+                    BoxWithData dispenser2Indicator = this.createEmptyBoxAt(realPos, state, matrices, vertexConsumers, light, 2.0f, 3.0f, 3.5f, class_2246.field_10234.method_9564());
+                    BoxWithData dispenser3 = this.createDispenserAt(realPos, state, matrices, vertexConsumers, light, -1.0f, 3.0f, -1.5f, class_2246.field_10200.method_9564(), 0);
+                    BoxWithData dispenser3Indicator = this.createEmptyBoxAt(realPos, state, matrices, vertexConsumers, light, -1.0f, 3.0f, -2.5f, class_2246.field_10171.method_9564());
+                    BoxWithData dispenser4 = this.createDispenserAt(realPos, state, matrices, vertexConsumers, light, -1.0f, 3.0f, 2.5f, class_2246.field_10200.method_9564(), 1);
+                    BoxWithData dispenser4Indicator = this.createEmptyBoxAt(realPos, state, matrices, vertexConsumers, light, -1.0f, 3.0f, 3.5f, class_2246.field_10201.method_9564());
+                    dispenser1.action = OnClick.DISPENSER1;
+                    dispenser1Indicator.action = OnClick.DI1;
+                    dispenser2.action = OnClick.DISPENSER2;
+                    dispenser2Indicator.action = OnClick.DI2;
+                    dispenser3.action = OnClick.DISPENSER3;
+                    dispenser3Indicator.action = OnClick.DI3;
+                    dispenser4.action = OnClick.DISPENSER4;
+                    dispenser4Indicator.action = OnClick.DI4;
+                    dispenser1.ghastUUID = ghastInfo.ghastUUID;
+                    dispenser1Indicator.ghastUUID = ghastInfo.ghastUUID;
+                    dispenser2.ghastUUID = ghastInfo.ghastUUID;
+                    dispenser2Indicator.ghastUUID = ghastInfo.ghastUUID;
+                    dispenser3.ghastUUID = ghastInfo.ghastUUID;
+                    dispenser3Indicator.ghastUUID = ghastInfo.ghastUUID;
+                    dispenser4.ghastUUID = ghastInfo.ghastUUID;
+                    dispenser4Indicator.ghastUUID = ghastInfo.ghastUUID;
+                    ghastInfo.boxes.add(dispenser1);
+                    ghastInfo.boxes.add(dispenser2);
+                    ghastInfo.boxes.add(dispenser3);
+                    ghastInfo.boxes.add(dispenser4);
+                    ghastInfo.boxes.add(dispenser1Indicator);
+                    ghastInfo.boxes.add(dispenser2Indicator);
+                    ghastInfo.boxes.add(dispenser3Indicator);
+                    ghastInfo.boxes.add(dispenser4Indicator);
                 }
             }
-
         }
     }
 
-
-    private Vec2f keepRotationOfImaginaryPos(EntityRenderState state, float x, float z) {
+    private class_241 keepRotationOfImaginaryPos(class_10017 state, float x, float z) {
         float xRel = x;
         float yRel = z;
-        float rotationRadians = (float) Math.toRadians(-((class_11262) state).bodyYaw);
-        float newX = xRel * (float) Math.cos(rotationRadians) - yRel * (float) Math.sin(rotationRadians);//reversed
-        float newY = xRel * (float) Math.sin(rotationRadians) + yRel * (float) Math.cos(rotationRadians);//with this
-
-        return new Vec2f(newX,newY);
+        float rotationRadians = (float)Math.toRadians(-((class_11262)state).field_53446);
+        float newX = xRel * (float)Math.cos(rotationRadians) - yRel * (float)Math.sin(rotationRadians);
+        float newY = xRel * (float)Math.sin(rotationRadians) + yRel * (float)Math.cos(rotationRadians);
+        return new class_241(newX, newY);
     }
 
-    private BoxWithData createBlockAt(Vector3d entityPos,EntityRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float x, float z, BlockState bs) {
-        matrices.push();
-        BlockRenderManager blockRenderManager = MinecraftClient.getInstance().getBlockRenderManager();
-        // DEVIL AHH MATH I GOT FROM INTERNET AND CHATGPT,  IT WORKS
-        // but i don't fully know how
-        // but i can understand that y is actually z in my situation
+    private BoxWithData createBlockAt(Vector3d entityPos, class_10017 state, class_4587 matrices, class_4597 vertexConsumers, int light, float x, float z, class_2680 bs) {
+        matrices.method_22903();
+        class_776 blockRenderManager = class_310.method_1551().method_1541();
         float xRel = x;
         float yRel = z;
-        float rotationRadians = (float) Math.toRadians(-((class_11262) state).bodyYaw);
-        float newX = xRel * (float) Math.cos(rotationRadians) - yRel * (float) Math.sin(rotationRadians);//reversed
-        float newY = xRel * (float) Math.sin(rotationRadians) + yRel * (float) Math.cos(rotationRadians);//with this
-        //
-
-
-        Vec2f imaginer = keepRotationOfImaginaryPos(state,x-1,z-1);
-        Vec3d c1 = new Vec3d(entityPos.x+imaginer.y,entityPos.y+4f+1,entityPos.z+imaginer.x);
-
-        Vec3d c2 = new Vec3d(entityPos.x+newY,entityPos.y+4f,entityPos.z+newX);//sağ alt
-
-
-
-        matrices.translate(newY,4f,newX);
-        matrices.scale(1f,1f,1f);
-        if (bs.getBlock() == Blocks.CHEST) {
-            imaginer = keepRotationOfImaginaryPos(state,x+1,z+1);
-            c1 = new Vec3d(entityPos.x+imaginer.y,entityPos.y+4f+1,entityPos.z+imaginer.x);
-
-            c2 = new Vec3d(entityPos.x+newY,entityPos.y+4f,entityPos.z+newX);
-            matrices.multiply(POSITIVE_Y.rotationDegrees(-((class_11262) state).bodyYaw));
+        float rotationRadians = (float)Math.toRadians(-((class_11262)state).field_53446);
+        float newX = xRel * (float)Math.cos(rotationRadians) - yRel * (float)Math.sin(rotationRadians);
+        float newY = xRel * (float)Math.sin(rotationRadians) + yRel * (float)Math.cos(rotationRadians);
+        class_241 imaginer = this.keepRotationOfImaginaryPos(state, x - 1.0f, z - 1.0f);
+        class_243 c1 = new class_243(entityPos.x + (double)imaginer.field_1342, entityPos.y + 4.0 + 1.0, entityPos.z + (double)imaginer.field_1343);
+        class_243 c2 = new class_243(entityPos.x + (double)newY, entityPos.y + 4.0, entityPos.z + (double)newX);
+        matrices.method_46416(newY, 4.0f, newX);
+        matrices.method_22905(1.0f, 1.0f, 1.0f);
+        if (bs.method_26204() == class_2246.field_10034) {
+            imaginer = this.keepRotationOfImaginaryPos(state, x + 1.0f, z + 1.0f);
+            c1 = new class_243(entityPos.x + (double)imaginer.field_1342, entityPos.y + 4.0 + 1.0, entityPos.z + (double)imaginer.field_1343);
+            c2 = new class_243(entityPos.x + (double)newY, entityPos.y + 4.0, entityPos.z + (double)newX);
+            matrices.method_22907((Quaternionfc)class_7833.field_40716.rotationDegrees(-((class_11262)state).field_53446));
         } else {
-            matrices.multiply(POSITIVE_Y.rotationDegrees(-((class_11262) state).bodyYaw + 180));
+            matrices.method_22907((Quaternionfc)class_7833.field_40716.rotationDegrees(-((class_11262)state).field_53446 + 180.0f));
         }
-
-        blockRenderManager.renderBlockAsEntity(bs,matrices,vertexConsumers,light,OverlayTexture.DEFAULT_UV);
-        matrices.pop();
-
-
-//        Constant.LOGGER.info(c1+"TO"+c2);
-
-        return new BoxWithData(c1,c2);
+        blockRenderManager.method_3353(bs, matrices, vertexConsumers, light, class_4608.field_21444);
+        matrices.method_22909();
+        return new BoxWithData(c1, c2);
     }
-    private BoxWithData createEmptyBoxAt(Vector3d entityPos,EntityRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float x, float parY, float z, BlockState bs) {
-        matrices.push();
-        BlockRenderManager blockRenderManager = MinecraftClient.getInstance().getBlockRenderManager();
-        // DEVIL AHH MATH I GOT FROM INTERNET AND CHATGPT,  IT WORKS
-        // but i don't fully know how
-        // but i can understand that y is actually z in my situation
+
+    private BoxWithData createEmptyBoxAt(Vector3d entityPos, class_10017 state, class_4587 matrices, class_4597 vertexConsumers, int light, float x, float parY, float z, class_2680 bs) {
+        matrices.method_22903();
+        class_776 blockRenderManager = class_310.method_1551().method_1541();
         float xRel = x;
         float yRel = z;
-        float rotationRadians = (float) Math.toRadians(-((class_11262) state).bodyYaw);
-        float newX = xRel * (float) Math.cos(rotationRadians) - yRel * (float) Math.sin(rotationRadians);//reversed
-        float newY = xRel * (float) Math.sin(rotationRadians) + yRel * (float) Math.cos(rotationRadians);//with this
-        //
-
-
-        Vec2f imaginer = keepRotationOfImaginaryPos(state,x-1,z-1);
-        Vec3d c1 = new Vec3d(entityPos.x+imaginer.y,entityPos.y+parY+1,entityPos.z+imaginer.x);
-
-        Vec3d c2 = new Vec3d(entityPos.x+newY,entityPos.y+parY,entityPos.z+newX);//sağ alt
-
-
-
-        matrices.translate(newY,parY,newX);
-        matrices.scale(1f,1f,1f);
-        if (bs.getBlock() == Blocks.CHEST) {
-            imaginer = keepRotationOfImaginaryPos(state,x+1,z+1);
-            c1 = new Vec3d(entityPos.x+imaginer.y,entityPos.y+parY+1,entityPos.z+imaginer.x);
-
-            c2 = new Vec3d(entityPos.x+newY,entityPos.y+parY,entityPos.z+newX);
-            matrices.multiply(POSITIVE_Y.rotationDegrees(-((class_11262) state).bodyYaw));
+        float rotationRadians = (float)Math.toRadians(-((class_11262)state).field_53446);
+        float newX = xRel * (float)Math.cos(rotationRadians) - yRel * (float)Math.sin(rotationRadians);
+        float newY = xRel * (float)Math.sin(rotationRadians) + yRel * (float)Math.cos(rotationRadians);
+        class_241 imaginer = this.keepRotationOfImaginaryPos(state, x - 1.0f, z - 1.0f);
+        class_243 c1 = new class_243(entityPos.x + (double)imaginer.field_1342, entityPos.y + (double)parY + 1.0, entityPos.z + (double)imaginer.field_1343);
+        class_243 c2 = new class_243(entityPos.x + (double)newY, entityPos.y + (double)parY, entityPos.z + (double)newX);
+        matrices.method_46416(newY, parY, newX);
+        matrices.method_22905(1.0f, 1.0f, 1.0f);
+        if (bs.method_26204() == class_2246.field_10034) {
+            imaginer = this.keepRotationOfImaginaryPos(state, x + 1.0f, z + 1.0f);
+            c1 = new class_243(entityPos.x + (double)imaginer.field_1342, entityPos.y + (double)parY + 1.0, entityPos.z + (double)imaginer.field_1343);
+            c2 = new class_243(entityPos.x + (double)newY, entityPos.y + (double)parY, entityPos.z + (double)newX);
+            matrices.method_22907((Quaternionfc)class_7833.field_40716.rotationDegrees(-((class_11262)state).field_53446));
         } else {
-            matrices.multiply(POSITIVE_Y.rotationDegrees(-((class_11262) state).bodyYaw + 180));
+            matrices.method_22907((Quaternionfc)class_7833.field_40716.rotationDegrees(-((class_11262)state).field_53446 + 180.0f));
         }
-
-//        blockRenderManager.renderBlockAsEntity(bs,matrices,vertexConsumers,light,OverlayTexture.DEFAULT_UV);
-        matrices.pop();
-
-
-//        Constant.LOGGER.info(c1+"TO"+c2);
-
-        return new BoxWithData(c1,c2);
+        matrices.method_22909();
+        return new BoxWithData(c1, c2);
     }
-    private BoxWithData createDispenserAt(Vector3d entityPos, EntityRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float x, float parY, float z, BlockState bs, int facing) {
-        matrices.push();
-        BlockRenderManager blockRenderManager = MinecraftClient.getInstance().getBlockRenderManager();
-        // DEVIL AHH MATH I GOT FROM INTERNET AND CHATGPT,  IT WORKS
-        // but i don't fully know how
-        // but i can understand that y is actually z in my situation
+
+    private BoxWithData createDispenserAt(Vector3d entityPos, class_10017 state, class_4587 matrices, class_4597 vertexConsumers, int light, float x, float parY, float z, class_2680 bs, int facing) {
+        class_243 c2;
+        class_243 c1;
+        class_2680 bState;
+        matrices.method_22903();
+        class_776 blockRenderManager = class_310.method_1551().method_1541();
         float xRel = x;
         float yRel = z;
-        float rotationRadians = (float) Math.toRadians(-((class_11262) state).bodyYaw);
-        float newX = xRel * (float) Math.cos(rotationRadians) - yRel * (float) Math.sin(rotationRadians);//reversed
-        float newY = xRel * (float) Math.sin(rotationRadians) + yRel * (float) Math.cos(rotationRadians);//with this
-        //
-
-        Vec3d c1;
-        Vec3d c2;
-
-
-        BlockState bState;
+        float rotationRadians = (float)Math.toRadians(-((class_11262)state).field_53446);
+        float newX = xRel * (float)Math.cos(rotationRadians) - yRel * (float)Math.sin(rotationRadians);
+        float newY = xRel * (float)Math.sin(rotationRadians) + yRel * (float)Math.cos(rotationRadians);
         if (facing == 0) {
-            bState = bs.with(Properties.FACING, Direction.EAST);
-            Vec2f imaginer = keepRotationOfImaginaryPos(state,x-1,z-1f);
-            c1 = new Vec3d(entityPos.x+imaginer.y,entityPos.y+parY+1,entityPos.z+imaginer.x);
-
-            Vec2f imaginer2 = keepRotationOfImaginaryPos(state,x,z-0.5f);
-            c2 = new Vec3d(entityPos.x+imaginer2.y,entityPos.y+parY,entityPos.z+imaginer2.x);//sağ alt
+            bState = (class_2680)bs.method_11657((class_2769)class_2741.field_12525, (Comparable)class_2350.field_11034);
+            class_241 imaginer = this.keepRotationOfImaginaryPos(state, x - 1.0f, z - 1.0f);
+            c1 = new class_243(entityPos.x + (double)imaginer.field_1342, entityPos.y + (double)parY + 1.0, entityPos.z + (double)imaginer.field_1343);
+            class_241 imaginer2 = this.keepRotationOfImaginaryPos(state, x, z - 0.5f);
+            c2 = new class_243(entityPos.x + (double)imaginer2.field_1342, entityPos.y + (double)parY, entityPos.z + (double)imaginer2.field_1343);
         } else {
-            bState = bs.with(Properties.FACING, Direction.WEST);
-            Vec2f imaginer = keepRotationOfImaginaryPos(state,x-1,z-0.5f);
-            c1 = new Vec3d(entityPos.x+imaginer.y,entityPos.y+parY+1,entityPos.z+imaginer.x);
-
-            c2 = new Vec3d(entityPos.x+newY,entityPos.y+parY,entityPos.z+newX);//sağ alt
+            bState = (class_2680)bs.method_11657((class_2769)class_2741.field_12525, (Comparable)class_2350.field_11039);
+            class_241 imaginer = this.keepRotationOfImaginaryPos(state, x - 1.0f, z - 0.5f);
+            c1 = new class_243(entityPos.x + (double)imaginer.field_1342, entityPos.y + (double)parY + 1.0, entityPos.z + (double)imaginer.field_1343);
+            c2 = new class_243(entityPos.x + (double)newY, entityPos.y + (double)parY, entityPos.z + (double)newX);
         }
-//        if (facing == 0) {
-//            imaginer = keepRotationOfImaginaryPos(state,x+1,z+1);
-//            c1 = new Vec3d(entityPos.x+imaginer.y,entityPos.y+4f+1,entityPos.z+imaginer.x);
-//
-//            c2 = new Vec3d(entityPos.x+newY,entityPos.y+4f,entityPos.z+newX);
-//
-//            matrices.multiply(POSITIVE_Y.rotationDegrees(-((class_11262) state).bodyYaw));
-//        } else {
-//            matrices.multiply(POSITIVE_Y.rotationDegrees(-((class_11262) state).bodyYaw + 180));
-//        }
-
-
-        matrices.translate(newY,parY,newX);
-        matrices.scale(1f,1f,1f);
-        matrices.multiply(POSITIVE_Y.rotationDegrees(-((class_11262) state).bodyYaw + 180));
-
-        blockRenderManager.renderBlockAsEntity(bState,matrices,vertexConsumers,light,OverlayTexture.DEFAULT_UV);
-        matrices.pop();
-
-
-//        Constant.LOGGER.info(c1+"TO"+c2);
-
-        return new BoxWithData(c1,c2);
+        matrices.method_46416(newY, parY, newX);
+        matrices.method_22905(1.0f, 1.0f, 1.0f);
+        matrices.method_22907((Quaternionfc)class_7833.field_40716.rotationDegrees(-((class_11262)state).field_53446 + 180.0f));
+        blockRenderManager.method_3353(bState, matrices, vertexConsumers, light, class_4608.field_21444);
+        matrices.method_22909();
+        return new BoxWithData(c1, c2);
     }
-
-
-
-    // No need for the bottom part because i found out that when you try to render bed with BlockRenderManager,
-    // it just renders both, nice
-    private BoxWithData createBedTop(Vector3d entityPos,EntityRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float x, float z, String color) {
-        matrices.push();
-        BlockRenderManager blockRenderManager = MinecraftClient.getInstance().getBlockRenderManager();
-
-        BlockState bs = Registries.BLOCK.get(Identifier.ofVanilla(color+"_bed")).getDefaultState();
-        // DEVIL AHH MATH I GOT FROM INTERNET AND CHATGPT,  IT WORKS
-        // but i don't fully know how
-        // but i can understand that y is actually z in my situation
-        float xRel = x;
-        float yRel = z;
-        float rotationRadians = (float) Math.toRadians(-((class_11262) state).bodyYaw);
-        float newX = xRel * (float) Math.cos(rotationRadians) - yRel * (float) Math.sin(rotationRadians);//reversed
-        float newY = xRel * (float) Math.sin(rotationRadians) + yRel * (float) Math.cos(rotationRadians);//with this
-        //
-
-        Vec2f imaginer = keepRotationOfImaginaryPos(state,x+1,z-1);
-        Vec3d c1 = new Vec3d(entityPos.x+imaginer.y,entityPos.y+4f+0.5,entityPos.z+imaginer.x);
-
-        Vec2f imaginer2 = keepRotationOfImaginaryPos(state,x,z+1);
-        Vec3d c2 = new Vec3d(entityPos.x+imaginer2.y,entityPos.y+4f,entityPos.z+imaginer2.x);
-
-        matrices.translate(newY,4f,newX);
-        matrices.scale(1f,1f,1f);
-        matrices.multiply(POSITIVE_Y.rotationDegrees(-((class_11262) state).bodyYaw - 90));
-
-        blockRenderManager.renderBlockAsEntity(bs,matrices,vertexConsumers,light,OverlayTexture.DEFAULT_UV);
-        matrices.pop();
-
-
-
-
-        return new BoxWithData(c1,c2);
-    }
-
 }

@@ -1,157 +1,136 @@
 package com.keremyurekli.happyghastbuilding.helpers;
 
 import com.keremyurekli.happyghastbuilding.Constant;
+import com.keremyurekli.happyghastbuilding.helpers.GhastHelper;
 import com.keremyurekli.happyghastbuilding.weirdstuff.GhastInfo;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.StringNbtReader;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.util.collection.DefaultedList;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.DynamicOps;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Writer;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import net.minecraft.class_1799;
+import net.minecraft.class_2371;
+import net.minecraft.class_2509;
+import net.minecraft.class_2520;
+import net.minecraft.class_5455;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.*;
-import java.nio.file.Path;
-import java.util.*;
-
 public class FileManager {
-
-//    public static Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-    private static final String SUBFOLDER_NAME = "/"+ Constant.MOD_ID+"/";
-
+    private static final String SUBFOLDER_NAME = "/happyghastbuilding/";
 
     public static void save(Path path) {
-        File folder = new File(path + SUBFOLDER_NAME);
+        File folder = new File(String.valueOf(path) + SUBFOLDER_NAME);
         if (folder.mkdirs()) {
             Constant.LOGGER.info("Folder created successfully: " + folder.getPath());
         } else {
             Constant.LOGGER.warn("Folder already exists or could not be created.");
         }
-//        Constant.LOGGER.info("MAJOR ZERO");
         Constant.INFO_LIST.forEach((uuid, ghastInfo) -> {
-            File target = new File(folder, uuid + ".yml");
-//            Constant.LOGGER.info("UH 11");
-            try (FileWriter writer = new FileWriter(target, false)) { // false = overwrite mode
-//                Constant.LOGGER.info("UH 22 " + ghastInfo.inventories.size());
+            File target = new File(folder, String.valueOf(uuid) + ".yml");
+            try (FileWriter writer = new FileWriter(target, false);){
                 Yaml yaml = new Yaml();
-                ghastInfo.inventories.forEach((s, itemStacks) -> {
-//                    Constant.LOGGER.info("UH 33");
-                    yaml.dump(saveInventoryWithCodec(s, itemStacks),writer);
-                });
-            } catch (IOException e) {
+                ghastInfo.inventories.forEach((s, itemStacks) -> yaml.dump(FileManager.saveInventoryWithCodec(s, itemStacks), (Writer)writer));
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    public static Map<String,Map<Integer,String>> saveInventoryWithCodec(String name, List<ItemStack> inventory) {
-        Map<Integer,String> datas = new HashMap();
-//        Constant.LOGGER.info("Trying "+name+" with "+inventory.size());
-        for (int i = 0; i < inventory.size(); i++) {
-            ItemStack stack = inventory.get(i);
-            if (!stack.isEmpty()) {
-                var nbt = ItemStack.CODEC.encode(stack, NbtOps.INSTANCE, NbtOps.INSTANCE.empty());
-                String string = "";
-                if (nbt.result().isPresent()) {
-//                    Constant.LOGGER.info("Pre-Present "+nbt.result().get().getNbtType());
-                    string = nbt.result().get().toString();
-//                    Constant.LOGGER.info("Present "+string);
-                } else {
-                    throw new AssertionError(nbt.error().get());
-                }
-                datas.put(i,string);
+    public static Map<String, Map<Integer, String>> saveInventoryWithCodec(String name, List<class_1799> inventory) {
+        HashMap<Integer, String> datas = new HashMap<Integer, String>();
+        for (int i = 0; i < inventory.size(); ++i) {
+            class_1799 stack = inventory.get(i);
+            if (stack.method_7960()) continue;
+            DataResult nbt = class_1799.field_24671.encode((Object)stack, (DynamicOps)class_2509.field_11560, (Object)class_2509.field_11560.method_10668());
+            String string = "";
+            if (!nbt.result().isPresent()) {
+                throw new AssertionError(nbt.error().get());
             }
+            string = ((class_2520)nbt.result().get()).toString();
+            datas.put(i, string);
         }
-        Map<String,Map<Integer,String>> dataMap = new HashMap<>();
-        dataMap.put(name,datas);
-
+        HashMap<String, Map<Integer, String>> dataMap = new HashMap<String, Map<Integer, String>>();
+        dataMap.put(name, datas);
         return dataMap;
     }
+
     public static void destroyExtras(Path path) {
-        File folder = new File(path+SUBFOLDER_NAME);
+        File folder = new File(String.valueOf(path) + SUBFOLDER_NAME);
         File[] ymlFiles = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".yml"));
-
         Constant.INFO_LIST.clear();
-
-        List<File> DESTROYABLES = new ArrayList<>();
+        ArrayList<File> DESTROYABLES = new ArrayList<File>();
         if (ymlFiles != null) {
             for (File file : ymlFiles) {
                 String uuid = file.getName().replaceFirst("[.][^.]+$", "");
-
-                if (!Constant.INFO_LIST.containsKey(UUID.fromString(uuid))) {
-                    DESTROYABLES.add(file);
-                }
-
+                if (Constant.INFO_LIST.containsKey(UUID.fromString(uuid))) continue;
+                DESTROYABLES.add(file);
             }
         } else {
             Constant.LOGGER.warn("Folder does not exist or is not a directory.");
         }
-        for (int i = 0; i < DESTROYABLES.size(); i++) {
-            DESTROYABLES.get(i).delete();
+        for (int i = 0; i < DESTROYABLES.size(); ++i) {
+            ((File)DESTROYABLES.get(i)).delete();
         }
     }
 
-    public static void load(Path path, DynamicRegistryManager.Immutable registryManager) {
-        File folder = new File(path+SUBFOLDER_NAME);
+    public static void load(Path path, class_5455.class_6890 registryManager) {
+        File folder = new File(String.valueOf(path) + SUBFOLDER_NAME);
         File[] ymlFiles = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".yml"));
-
         Constant.INFO_LIST.clear();
-
         if (ymlFiles != null) {
             for (File file : ymlFiles) {
                 String uuid = file.getName().replaceFirst("[.][^.]+$", "");
-
-                GhastInfo info = GhastHelper.addNewGhast(UUID.fromString(uuid));
-
+                GhastInfo info = GhastHelper.addNewGhast((UUID)UUID.fromString(uuid));
                 Yaml yaml = new Yaml();
-                try (InputStream input = new FileInputStream(file)) {
-                    Map<String,Map<Integer,String>> data = yaml.load(input);
+                try (FileInputStream input = new FileInputStream(file);){
+                    Map data = (Map)yaml.load((InputStream)input);
                     if (data != null) {
-                        data.forEach(((key, integerStringMap) -> {
-//                            Constant.LOGGER.info("Trying to load "+key+" contents:");
-                            DefaultedList<ItemStack> list;
-                            if (key.contains("dispenser")) {
-                                list = DefaultedList.ofSize(9, ItemStack.EMPTY);
-                            } else if(key.contains("chest")) {
-                                list = DefaultedList.ofSize(27, ItemStack.EMPTY);
-                            } else if(key.contains("furnace")) {
-                                list = DefaultedList.ofSize(3, ItemStack.EMPTY);
-                            } else {
-                                list = null;//shouldnt happen
+                        data.forEach((key, integerStringMap) -> {
+                            Object list = key.contains("dispenser") ? class_2371.method_10213((int)9, (Object)class_1799.field_8037) : (key.contains("chest") ? class_2371.method_10213((int)27, (Object)class_1799.field_8037) : (key.contains("furnace") ? class_2371.method_10213((int)3, (Object)class_1799.field_8037) : null));
+                            if (!integerStringMap.isEmpty()) {
+                                integerStringMap.forEach((arg_0, arg_1) -> FileManager.lambda$load$4(registryManager, (class_2371)list, arg_0, arg_1));
                             }
-
-                            if (!integerStringMap.isEmpty()) {//yup
-                                integerStringMap.forEach((integer, s) -> {
-                                    ItemStack i;
-                                    try {
-                                        i = ItemStack.fromNbt(registryManager,StringNbtReader.readCompound(s)).orElse(ItemStack.EMPTY);
-                                    } catch (CommandSyntaxException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                    list.set(integer,i);
-//                                Constant.LOGGER.info(integer+ " indexed with "+s);
-                                });
-                            }
-                            GhastInfo ghastInfo = Constant.INFO_LIST.get(UUID.fromString(uuid));
-                            ghastInfo.inventories.computeIfAbsent(key, k -> list);
-                        }));
-                    } else {
-                        Constant.LOGGER.warn("Somethings wrong! please contact the dev #fm126");
+                            GhastInfo ghastInfo = (GhastInfo)Constant.INFO_LIST.get(UUID.fromString(uuid));
+                            ghastInfo.inventories.computeIfAbsent(key, arg_0 -> FileManager.lambda$load$5((class_2371)list, arg_0));
+                        });
+                        continue;
                     }
-
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
+                    Constant.LOGGER.warn("Somethings wrong! please contact the dev #fm126");
+                }
+                catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
-//                GhastInfo testInfo = Constant.INFO_LIST.get(UUID.fromString(uuid));
-//                Constant.LOGGER.info("Final check: GhastInfo for " + uuid + " has " + testInfo.inventories.size() + " inventories");
+                catch (IOException e2) {
+                    throw new RuntimeException(e2);
+                }
             }
-
         } else {
             Constant.LOGGER.warn("Folder does not exist or is not a directory.");
         }
     }
 
+    private static /* synthetic */ List lambda$load$5(class_2371 list, String k) {
+        return list;
+    }
+
+    private static /* synthetic */ void lambda$load$4(class_5455.class_6890 registryManager, class_2371 list, Integer integer, String s) {
+        try {
+            return;
+        }
+        catch (CommandSyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
