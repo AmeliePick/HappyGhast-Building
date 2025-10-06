@@ -294,7 +294,6 @@
          },
         code: {
         A: 
-        	
             line 96
             new java/io/File
             dup 
@@ -463,75 +462,69 @@
         parameters: { registryManager, uuid, key, integerStringMap },
         code: {
         A: 
-        	
             line 114
             aload key
             ldc "dispenser"
             invokevirtual java/lang/String.contains (Ljava/lang/CharSequence;)Z
-            ifeq D
+            ifeq C
         B: 
             line 115
             bipush 9
             getstatic net/minecraft/class_1799.field_8037 Lnet/minecraft/class_1799;
             invokestatic net/minecraft/class_2371.method_10213 (ILjava/lang/Object;)Lnet/minecraft/class_2371;
             astore list
+            goto H
         C: 
-            goto K
-        D: 
             line 116
             aload key
             ldc "chest"
             invokevirtual java/lang/String.contains (Ljava/lang/CharSequence;)Z
-			ifeq G
-        E: 
+            ifeq E
+        D: 
             line 117
             bipush 27
             getstatic net/minecraft/class_1799.field_8037 Lnet/minecraft/class_1799;
             invokestatic net/minecraft/class_2371.method_10213 (ILjava/lang/Object;)Lnet/minecraft/class_2371;
             astore list
-        F: 
-            goto K
-        G: 
+            goto H
+        E: 
             line 118
             aload key
             ldc "furnace"
             invokevirtual java/lang/String.contains (Ljava/lang/CharSequence;)Z
-            ifeq J
-        H: 
+            ifeq G
+        F: 
             line 119
             iconst_3 
             getstatic net/minecraft/class_1799.field_8037 Lnet/minecraft/class_1799;
             invokestatic net/minecraft/class_2371.method_10213 (ILjava/lang/Object;)Lnet/minecraft/class_2371;
             astore list
-        I: 
-            goto K
-        J: 
+            goto H
+        G: 
             line 121
             aconst_null 
             astore list
-            
-        K: 
+        H: 
             line 124
             aload integerStringMap
             invokeinterface java/util/Map.isEmpty ()Z
-            ifne O
-        L: 
+            ifne J
+        I: 
             line 125
             aload integerStringMap
             aload registryManager
             aload list
             invokedynamic accept (Lnet/minecraft/class_5455$class_6890;Lnet/minecraft/class_2371;)Ljava/util/function/BiConsumer; LambdaMetafactory.metafactory { (Ljava/lang/Object;Ljava/lang/Object;)V, { invokestatic, com/keremyurekli/happyghastbuilding/helpers/FileManager.lambda$load$4, (Lnet/minecraft/class_5455$class_6890;Lnet/minecraft/class_2371;Ljava/lang/Integer;Ljava/lang/String;)V }, (Ljava/lang/Integer;Ljava/lang/String;)V }
             invokeinterface java/util/Map.forEach (Ljava/util/function/BiConsumer;)V
-        M: 
+        J: 
             line 136
-            return
             getstatic com/keremyurekli/happyghastbuilding/Constant.INFO_LIST Ljava/util/HashMap;
             aload uuid
             invokestatic java/util/UUID.fromString (Ljava/lang/String;)Ljava/util/UUID;
             invokevirtual java/util/HashMap.get (Ljava/lang/Object;)Ljava/lang/Object;
             checkcast com/keremyurekli/happyghastbuilding/weirdstuff/GhastInfo
             astore ghastInfo
-        N: 
+        K: 
             line 137
             aload ghastInfo
             getfield com/keremyurekli/happyghastbuilding/weirdstuff/GhastInfo.inventories Ljava/util/HashMap;
@@ -540,10 +533,10 @@
             invokedynamic apply (Lnet/minecraft/class_2371;)Ljava/util/function/Function; LambdaMetafactory.metafactory { (Ljava/lang/Object;)Ljava/lang/Object;, { invokestatic, com/keremyurekli/happyghastbuilding/helpers/FileManager.lambda$load$5, (Lnet/minecraft/class_2371;Ljava/lang/String;)Ljava/util/List; }, (Ljava/lang/String;)Ljava/util/List; }
             invokevirtual java/util/HashMap.computeIfAbsent (Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;
             pop 
-        O: 
+        L: 
             line 138
             return 
-        P: 
+        M: 
         }
     }
 
@@ -561,58 +554,70 @@
     .method private static synthetic lambda$load$4 (Lnet/minecraft/class_5455$class_6890;Lnet/minecraft/class_2371;Ljava/lang/Integer;Ljava/lang/String;)V {
         parameters: { registryManager, list, integer, s },
         exceptions: { 
-            { A, B, C, Lcom/mojang/brigadier/exceptions/CommandSyntaxException; }
+            { A, B, D, Lcom/mojang/brigadier/exceptions/CommandSyntaxException; }
          },
         code: {
         A: 
-	        return
-            // try-start:   range=[A-B] handler=C:com/mojang/brigadier/exceptions/CommandSyntaxException 
-            line 128
-            getstatic com/keremyurekli/happyghastbuilding/Constant.LOGGER Lorg/slf4j/Logger;
-            aload s
-            invokeinterface org/slf4j/Logger.warn (Ljava/lang/String;)V
+            // try-start:   range=[A-B] handler=D:com/mojang/brigadier/exceptions/CommandSyntaxException 
             
-            aload registryManager
-            aload s
-            
-            
-            
-            
-            // NOTE: they removed fromNbt method for StackItem
-            //invokestatic net/minecraft/class_2522.method_67315 (Ljava/lang/String;)Lnet/minecraft/class_2487;
-            //invokestatic net/minecraft/class_1799.method_57360 (Lnet/minecraft/class_7225$class_7874;Lnet/minecraft/class_2520;)Ljava/util/Optional;
-            //getstatic net/minecraft/class_1799.field_8037 Lnet/minecraft/class_1799;
-            //invokevirtual java/util/Optional.orElse (Ljava/lang/Object;)Ljava/lang/Object;
-            //checkcast net/minecraft/class_1799
-            //astore i
-
+            // NOTE: they removed fromNbt method for StackItem, so prevent it from a crash and just do nothing.
+            // There a chest was removed, now this code is linked only for dispensers and the furnace.
+            return 
         B: 
-            // try-end:     range=[A-B] handler=C:com/mojang/brigadier/exceptions/CommandSyntaxException 
-            line 131
-            goto E
+            // try-end:     range=[A-B] handler=D:com/mojang/brigadier/exceptions/CommandSyntaxException 
+            line 128
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            athrow 
         C: 
-            // try-handler: range=[A-B] handler=C:com/mojang/brigadier/exceptions/CommandSyntaxException 
+            line 131
+            nop 
+            nop 
+            athrow 
+        D: 
+            // try-handler: range=[A-B] handler=D:com/mojang/brigadier/exceptions/CommandSyntaxException 
             line 129
             astore e
-        D: 
+        E: 
             line 130
             new java/lang/RuntimeException
             dup 
             aload e
             invokespecial java/lang/RuntimeException.<init> (Ljava/lang/Throwable;)V
             athrow 
-        E: 
-            line 132
-            aload list
-            aload integer
-            invokevirtual java/lang/Integer.intValue ()I
-            aload i
-            invokevirtual net/minecraft/class_2371.set (ILjava/lang/Object;)Ljava/lang/Object;
-            pop 
         F: 
-            line 134
-            return 
+            line 132
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            nop 
+            athrow 
         G: 
+            line 134
+            athrow 
+        H: 
         }
     }
 
