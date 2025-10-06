@@ -101,6 +101,181 @@
         }
     }
 
+    .method private static interactMob (Lnet/minecraft/class_1657;Lnet/minecraft/class_1268;Lnet/minecraft/class_11187;)V {
+        parameters: { player, hand, ghast },
+        exceptions: { 
+            { S, V, W, Ljava/lang/Exception; }
+         },
+        code: {
+        A: 
+            line 25
+            aload player
+            aload hand
+            invokevirtual net/minecraft/class_1657.method_5998 (Lnet/minecraft/class_1268;)Lnet/minecraft/class_1799;
+            astore itemStack
+        B: 
+            line 26
+            aload itemStack
+            getstatic net/minecraft/class_1802.field_8388 Lnet/minecraft/class_1792;
+            invokevirtual net/minecraft/class_1799.method_31574 (Lnet/minecraft/class_1792;)Z
+            ifeq Y
+            aload ghast
+            invokevirtual net/minecraft/class_11187.method_5685 ()Ljava/util/List;
+            invokeinterface java/util/List.size ()I
+            iconst_3 
+            if_icmpge Y
+            aload ghast
+            getstatic net/minecraft/class_1304.field_48824 Lnet/minecraft/class_1304;
+            invokevirtual net/minecraft/class_11187.method_6118 (Lnet/minecraft/class_1304;)Lnet/minecraft/class_1799;
+            invokevirtual net/minecraft/class_1799.method_7960 ()Z
+            ifne Y
+        C: 
+            line 27
+            aload ghast
+            invokevirtual net/minecraft/class_11187.method_37908 ()Lnet/minecraft/class_1937;
+            getfield net/minecraft/class_1937.field_9236 Z
+            ifne X
+        D: 
+            line 28
+            new net/minecraft/class_1694
+            dup 
+            getstatic net/minecraft/class_1299.field_6126 Lnet/minecraft/class_1299;
+            aload ghast
+            invokevirtual net/minecraft/class_11187.method_37908 ()Lnet/minecraft/class_1937;
+            invokespecial net/minecraft/class_1694.<init> (Lnet/minecraft/class_1299;Lnet/minecraft/class_1937;)V
+            astore chestMinecart
+        E: 
+            line 29
+            aload chestMinecart
+            aload ghast
+            invokevirtual net/minecraft/class_11187.method_23317 ()D
+            aload ghast
+            invokevirtual net/minecraft/class_11187.method_23318 ()D
+            aload ghast
+            invokevirtual net/minecraft/class_11187.method_23321 ()D
+            aload ghast
+            invokevirtual net/minecraft/class_11187.method_36454 ()F
+            aload ghast
+            invokevirtual net/minecraft/class_11187.method_36455 ()F
+            invokevirtual net/minecraft/class_1694.method_5808 (DDDFF)V
+        F: 
+            line 30
+            aload ghast
+            invokevirtual net/minecraft/class_11187.method_37908 ()Lnet/minecraft/class_1937;
+            aload chestMinecart
+            invokevirtual net/minecraft/class_1937.method_8649 (Lnet/minecraft/class_1297;)Z
+            pop 
+        G: 
+            line 31
+            aload chestMinecart
+            aload ghast
+            invokevirtual net/minecraft/class_1694.method_5804 (Lnet/minecraft/class_1297;)Z
+            pop 
+        H: 
+            line 32
+            aload player
+            invokevirtual net/minecraft/class_1657.method_31549 ()Lnet/minecraft/class_1656;
+            getfield net/minecraft/class_1656.field_7477 Z
+            ifne J
+        I: 
+            line 33
+            aload itemStack
+            iconst_1 
+            invokevirtual net/minecraft/class_1799.method_7934 (I)V
+        J: 
+            line 34
+            aload ghast
+            invokevirtual net/minecraft/class_11187.method_37908 ()Lnet/minecraft/class_1937;
+            astore v8
+            aload v8
+            instanceof net/minecraft/class_3218
+            ifeq X
+            aload v8
+            checkcast net/minecraft/class_3218
+            astore serverWorld
+        K: 
+            line 35
+            aload serverWorld
+            invokevirtual net/minecraft/class_3218.method_14170 ()Lnet/minecraft/class_2995;
+            astore scoreboard
+        L: 
+            line 36
+            aload scoreboard
+            ldc "NoCollision"
+            invokevirtual net/minecraft/class_269.method_1153 (Ljava/lang/String;)Lnet/minecraft/class_268;
+            astore team
+        M: 
+            line 37
+            aload team
+            ifnonnull P
+        N: 
+            line 38
+            aload scoreboard
+            ldc "NoCollision"
+            invokevirtual net/minecraft/class_269.method_1171 (Ljava/lang/String;)Lnet/minecraft/class_268;
+            astore team
+        O: 
+            line 39
+            aload team
+            getstatic net/minecraft/class_270$class_271.field_1435 Lnet/minecraft/class_270$class_271;
+            invokevirtual net/minecraft/class_268.method_1145 (Lnet/minecraft/class_270$class_271;)V
+            goto R
+        P: 
+            line 40
+            aload team
+            invokevirtual net/minecraft/class_268.method_1203 ()Lnet/minecraft/class_270$class_271;
+            getstatic net/minecraft/class_270$class_271.field_1435 Lnet/minecraft/class_270$class_271;
+            if_acmpeq R
+        Q: 
+            line 41
+            aload team
+            getstatic net/minecraft/class_270$class_271.field_1435 Lnet/minecraft/class_270$class_271;
+            invokevirtual net/minecraft/class_268.method_1145 (Lnet/minecraft/class_270$class_271;)V
+        R: 
+            line 43
+            ldc "team join NoCollision %s"
+            iconst_1 
+            anewarray java/lang/Object
+            dup 
+            iconst_0 
+            aload chestMinecart
+            invokevirtual net/minecraft/class_1694.method_5845 ()Ljava/lang/String;
+            aastore 
+            invokestatic java/lang/String.format (Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+            astore command
+        S: 
+            // try-start:   range=[S-V] handler=W:java/lang/Exception 
+            line 45
+            aload serverWorld
+            invokevirtual net/minecraft/class_3218.method_8503 ()Lnet/minecraft/server/MinecraftServer;
+            invokevirtual net/minecraft/server/MinecraftServer.method_3734 ()Lnet/minecraft/class_2170;
+            aload serverWorld
+        T: 
+            line 46
+            invokevirtual net/minecraft/class_3218.method_8503 ()Lnet/minecraft/server/MinecraftServer;
+            invokevirtual net/minecraft/server/MinecraftServer.method_3739 ()Lnet/minecraft/class_2168;
+            invokevirtual net/minecraft/class_2168.method_9217 ()Lnet/minecraft/class_2168;
+            aload command
+        U: 
+            line 45
+            invokevirtual net/minecraft/class_2170.method_44252 (Lnet/minecraft/class_2168;Ljava/lang/String;)V
+        V: 
+            // try-end:     range=[S-V] handler=W:java/lang/Exception 
+            line 48
+            goto X
+        W: 
+            // try-handler: range=[S-V] handler=W:java/lang/Exception 
+            astore v11
+        X: 
+            line 51
+            return 
+        Y: 
+            line 53
+            return 
+        Z: 
+        }
+    }
+
     .method private static entityHandleV1 (Lnet/minecraft/class_1657;Lnet/minecraft/class_1937;Lnet/minecraft/class_1268;Lnet/minecraft/class_1297;Lnet/minecraft/class_3966;)Lnet/minecraft/class_1269; {
         parameters: { player, world, hand, entity, hitResult },
         code: {
@@ -113,125 +288,133 @@
             getstatic net/minecraft/class_1269.field_5811 Lnet/minecraft/class_1269$class_9859;
             areturn 
         C: 
+            aload entity
+            instanceof net/minecraft/class_11187
+            ifeq D
+            aload player
+            checkcast net/minecraft/class_1657
+            aload hand
+            checkcast net/minecraft/class_1268
+            aload entity
+            checkcast net/minecraft/class_11187
+            invokestatic com/keremyurekli/happyghastbuilding/Happyghastbuilding.interactMob (Lnet/minecraft/class_1657;Lnet/minecraft/class_1268;Lnet/minecraft/class_11187;)V
+        D: 
             line 87
             aload world
             getfield net/minecraft/class_1937.field_9236 Z
-            ifne BE
-        D: 
+            ifne BF
+        E: 
             line 98
             aload entity
             invokevirtual net/minecraft/class_1297.method_5864 ()Lnet/minecraft/class_1299;
             getstatic net/minecraft/class_1299.field_59668 Lnet/minecraft/class_1299;
-            if_acmpne BE
+            if_acmpne BF
             aload player
             invokevirtual net/minecraft/class_1657.method_5715 ()Z
-            ifeq BE
-        E: 
+            ifeq BF
+        F: 
             line 99
             aload player
             aload hand
             invokevirtual net/minecraft/class_1657.method_5998 (Lnet/minecraft/class_1268;)Lnet/minecraft/class_1799;
             astore itemInHand
-        F: 
+        G: 
             line 100
             aload itemInHand
             invokevirtual net/minecraft/class_1799.method_7909 ()Lnet/minecraft/class_1792;
             astore v7
             aload v7
             instanceof net/minecraft/class_1747
-            ifeq BE
+            ifeq BF
             aload v7
             checkcast net/minecraft/class_1747
             astore blockItem
-        G: 
+        H: 
             line 101
             aload entity
             checkcast net/minecraft/class_11187
             astore ghast
-        H: 
+        I: 
             line 102
             aload entity
             checkcast net/minecraft/class_1296
             astore pe
-        I: 
+        J: 
             line 103
             aload pe
             invokevirtual net/minecraft/class_1296.method_6109 ()Z
-            ifeq K
-        J: 
+            ifeq L
+        K: 
             line 104
             getstatic net/minecraft/class_1269.field_5811 Lnet/minecraft/class_1269$class_9859;
             areturn 
-        K: 
+        L: 
             line 106
             aload ghast
-            // There is no method_71616 anymore. Now it's possible to place bloks also when not staying on a ghast. 
-            //invokevirtual net/minecraft/class_11187.method_71616 ()Z
-            //ifeq BD
-        L: 
+        M: 
             line 107
             aload hitResult
             invokevirtual net/minecraft/class_3966.method_17784 ()Lnet/minecraft/class_243;
             astore hitPos
-        M: 
+        N: 
             line 108
             aload hitPos
             invokestatic net/minecraft/class_2338.method_49638 (Lnet/minecraft/class_2374;)Lnet/minecraft/class_2338;
             astore blockPos
-        N: 
+        O: 
             line 109
             new net/minecraft/class_238
             dup 
             aload blockPos
             invokespecial net/minecraft/class_238.<init> (Lnet/minecraft/class_2338;)V
             astore blockBox
-        O: 
+        P: 
             line 111
             aload pe
             invokevirtual net/minecraft/class_1296.method_5829 ()Lnet/minecraft/class_238;
             astore entityBox
-        P: 
+        Q: 
             line 112
             aload entityBox
             invokevirtual net/minecraft/class_238.method_1005 ()Lnet/minecraft/class_243;
             astore entityCenter
-        Q: 
+        R: 
             line 115
             aload blockBox
             invokevirtual net/minecraft/class_238.method_1005 ()Lnet/minecraft/class_243;
             astore blockCenter
-        R: 
+        S: 
             line 117
             aload blockBox
             invokevirtual net/minecraft/class_238.method_1005 ()Lnet/minecraft/class_243;
             astore newBlockPos
-        S: 
+        T: 
             line 119
             iconst_0 
             istore x1
-        T: 
+        U: 
             line 120
             iconst_0 
             istore y1
-        U: 
+        V: 
             line 121
             iconst_0 
             istore z1
-        V: 
+        W: 
             line 123
             aload entityBox
             aload blockBox
             invokevirtual net/minecraft/class_238.method_994 (Lnet/minecraft/class_238;)Z
-            ifne W
-            goto AH
-        W: 
+            ifne X
+            goto AI
+        X: 
             line 126
             aload pe
             invokevirtual net/minecraft/class_1296.method_5829 ()Lnet/minecraft/class_238;
             aload blockBox
             invokevirtual net/minecraft/class_238.method_999 (Lnet/minecraft/class_238;)Lnet/minecraft/class_238;
             astore intersection
-        X: 
+        Y: 
             line 127
             aload hitPos
             getfield net/minecraft/class_243.field_1351 D
@@ -239,71 +422,71 @@
             getstatic net/minecraft/class_2350$class_2351.field_11052 Lnet/minecraft/class_2350$class_2351;
             invokevirtual net/minecraft/class_238.method_990 (Lnet/minecraft/class_2350$class_2351;)D
             dcmpl 
-            ifne AA
-        Y: 
+            ifne AB
+        Z: 
             line 128
             aload intersection
             invokevirtual net/minecraft/class_238.method_17940 ()D
             dconst_0 
             dcmpl 
-            ifle AH
-        Z: 
+            ifle AI
+        AA: 
             line 129
             iconst_1 
             istore y1
-            goto AH
-        AA: 
+            goto AI
+        AB: 
             line 136
             aload intersection
             invokevirtual net/minecraft/class_238.method_17939 ()D
             aload intersection
             invokevirtual net/minecraft/class_238.method_17941 ()D
             dcmpg 
-            ifge AE
-        AB: 
+            ifge AF
+        AC: 
             line 137
             aload entityCenter
             getfield net/minecraft/class_243.field_1352 D
             aload blockCenter
             getfield net/minecraft/class_243.field_1352 D
             dcmpl 
-            ifle AD
-        AC: 
+            ifle AE
+        AD: 
             line 138
             iconst_m1 
             istore x1
-            goto AH
-        AD: 
+            goto AI
+        AE: 
             line 140
             iconst_1 
             istore x1
-            goto AH
-        AE: 
+            goto AI
+        AF: 
             line 143
             aload entityCenter
             getfield net/minecraft/class_243.field_1350 D
             aload blockCenter
             getfield net/minecraft/class_243.field_1350 D
             dcmpl 
-            ifle AG
-        AF: 
+            ifle AH
+        AG: 
             line 144
             iconst_m1 
             istore z1
-            goto AH
-        AG: 
+            goto AI
+        AH: 
             line 146
             iconst_1 
             istore z1
-        AH: 
+        AI: 
             line 151
             iload x1
-            ifne AI
+            ifne AJ
             iload y1
-            ifne AI
+            ifne AJ
             iload z1
-            ifeq AJ
-        AI: 
+            ifeq AK
+        AJ: 
             line 152
             new net/minecraft/class_2338
             dup 
@@ -321,18 +504,18 @@
             iadd 
             invokespecial net/minecraft/class_2338.<init> (III)V
             astore blockPos
-        AJ: 
+        AK: 
             line 154
             aload world
             aload blockPos
             invokevirtual net/minecraft/class_1937.method_8320 (Lnet/minecraft/class_2338;)Lnet/minecraft/class_2680;
             invokevirtual net/minecraft/class_2680.method_45474 ()Z
-            ifeq BD
-        AK: 
+            ifeq BE
+        AL: 
             line 158
             aconst_null 
             astore p
-        AL: 
+        AM: 
             line 159
             aload blockItem
             invokevirtual net/minecraft/class_1747.method_7711 ()Lnet/minecraft/class_2248;
@@ -340,33 +523,33 @@
             invokevirtual net/minecraft/class_2680.method_28501 ()Ljava/util/Collection;
             invokeinterface java/util/Collection.iterator ()Ljava/util/Iterator;
             astore v20
-        AM: 
+        AN: 
             aload v20
             invokeinterface java/util/Iterator.hasNext ()Z
-            ifeq AQ
+            ifeq AR
             aload v20
             invokeinterface java/util/Iterator.next ()Ljava/lang/Object;
             checkcast net/minecraft/class_2769
             astore p1
-        AN: 
+        AO: 
             line 160
             aload p1
             invokevirtual net/minecraft/class_2769.method_11899 ()Ljava/lang/String;
             ldc "facing"
             invokevirtual java/lang/String.equals (Ljava/lang/Object;)Z
-            ifeq AP
-        AO: 
+            ifeq AQ
+        AP: 
             line 161
             aload p1
             astore p
-        AP: 
-            line 163
-            goto AM
         AQ: 
+            line 163
+            goto AN
+        AR: 
             line 165
             aload p
-            ifnull AS
-        AR: 
+            ifnull AT
+        AS: 
             line 167
             aload world
             aload blockPos
@@ -380,8 +563,8 @@
             checkcast net/minecraft/class_2680
             invokevirtual net/minecraft/class_1937.method_8501 (Lnet/minecraft/class_2338;Lnet/minecraft/class_2680;)Z
             pop 
-            goto AT
-        AS: 
+            goto AU
+        AT: 
             line 169
             aload world
             aload blockPos
@@ -390,36 +573,36 @@
             invokevirtual net/minecraft/class_2248.method_9564 ()Lnet/minecraft/class_2680;
             invokevirtual net/minecraft/class_1937.method_8501 (Lnet/minecraft/class_2338;Lnet/minecraft/class_2680;)Z
             pop 
-        AT: 
+        AU: 
             line 172
             aload world
             aload blockPos
             aload itemInHand
             invokestatic com/keremyurekli/happyghastbuilding/Happyghastbuilding.copyComponentsToBlockEntity (Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_1799;)V
-        AU: 
+        AV: 
             line 173
             aload player
             aload hand
             invokevirtual net/minecraft/class_1657.method_6104 (Lnet/minecraft/class_1268;)V
-        AV: 
+        AW: 
             line 174
             aload blockItem
             invokevirtual net/minecraft/class_1747.method_7711 ()Lnet/minecraft/class_2248;
             invokevirtual net/minecraft/class_2248.method_9564 ()Lnet/minecraft/class_2680;
             invokevirtual net/minecraft/class_2680.method_26231 ()Lnet/minecraft/class_2498;
             astore soundGroup
-        AW: 
+        AX: 
             line 175
             aload world
             aconst_null 
             aload blockPos
             aload soundGroup
-        AX: 
+        AY: 
             line 178
             invokevirtual net/minecraft/class_2498.method_10598 ()Lnet/minecraft/class_3414;
             getstatic net/minecraft/class_3419.field_15245 Lnet/minecraft/class_3419;
             aload soundGroup
-        AY: 
+        AZ: 
             line 180
             invokevirtual net/minecraft/class_2498.method_10597 ()F
             fconst_1 
@@ -427,33 +610,33 @@
             fconst_2 
             fdiv 
             aload soundGroup
-        AZ: 
+        BA: 
             line 181
             invokevirtual net/minecraft/class_2498.method_10599 ()F
             ldc 0.8000000119F
             fmul 
-        BA: 
+        BB: 
             line 175
             invokevirtual net/minecraft/class_1937.method_8396 (Lnet/minecraft/class_1297;Lnet/minecraft/class_2338;Lnet/minecraft/class_3414;Lnet/minecraft/class_3419;FF)V
-        BB: 
+        BC: 
             line 183
             aload itemInHand
             iconst_1 
             aload player
             invokevirtual net/minecraft/class_1799.method_57008 (ILnet/minecraft/class_1309;)V
-        BC: 
+        BD: 
             line 184
             getstatic net/minecraft/class_1269.field_5812 Lnet/minecraft/class_1269$class_9860;
             areturn 
-        BD: 
+        BE: 
             line 189
             getstatic net/minecraft/class_1269.field_5812 Lnet/minecraft/class_1269$class_9860;
             areturn 
-        BE: 
+        BF: 
             line 193
             getstatic net/minecraft/class_1269.field_5811 Lnet/minecraft/class_1269$class_9859;
             areturn 
-        BF: 
+        BG: 
         }
     }
 
